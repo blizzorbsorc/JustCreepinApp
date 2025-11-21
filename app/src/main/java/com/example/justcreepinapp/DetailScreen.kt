@@ -93,7 +93,8 @@ fun DetailScreen(viewModel: AppViewModel, locationId: Int? = null, onBackClick: 
                     Spacer(Modifier.height(12.dp))
                     Button(
                         onClick = {
-                            viewModel.updateLocation(locationId) {
+                            //viewModel.updateLocation(locationId) {
+                            viewModel.deleteLocation(locationId) {
                                 onBackClick()
                             }
                         },

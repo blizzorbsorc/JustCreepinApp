@@ -55,22 +55,15 @@ fun AppNavigation(navController: NavController, modifier: Modifier = Modifier) {
                 onBackClick = {navController.popBackStack()}
             )
         }
-        composable("detail_screen/{locationId"){backstackEntry ->
+        composable("detail_screen/{locationId}"){backstackEntry ->
+
             val locationId = backstackEntry.arguments?.getString("locationId")?.toIntOrNull()
-            val location = appViewModel.locations.value.firstOrNull{it.id==locationId}
-            if(location!=null) {
-                DetailScreen(
-                    viewModel = appViewModel,
-                    locationId = location.id,
-                    onBackClick = {navController.popBackStack()}
-                )
-            }
-            /*val id = backstackEntry.arguments?.getString("locationId")?.toIntOrNull()
             DetailScreen(
                 viewModel = appViewModel,
-                locationId = id,
+                locationId = locationId,
                 onBackClick = {navController.popBackStack()}
-            )*/
+            )
+
         }
     }
 }

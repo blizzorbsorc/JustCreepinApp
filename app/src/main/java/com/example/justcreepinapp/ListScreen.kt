@@ -99,6 +99,7 @@ fun ListScreen(viewModel: AppViewModel, onBackClick: () -> Unit, onAddLocationCl
                             //viewModel.deleteLocation.value = location
                             //viewModel.showDialog.value = true
 
+
                         }) {
                             Icon(
                                 imageVector = Icons.Default.Delete,

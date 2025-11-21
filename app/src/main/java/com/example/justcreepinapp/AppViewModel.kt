@@ -77,6 +77,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         id: Int,
         onDone: () -> Unit = {}
     ) {
+        dbHelper.deleteLocation(id)
         if (holiday.value.isNotBlank()) {
             loadLocations(holiday.value)
         }
