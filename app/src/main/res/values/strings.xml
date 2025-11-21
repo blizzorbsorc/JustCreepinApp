@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">JustCreepinApp</string>
+    <string name="button_christmas">Christmas</string>
+    <string name="button_halloween">Halloween</string>
+    <string name="button_add_location">Add Location</string>
+    <string name="button_save_location">Save Location</string>
+    <string name="button_back">Back</string>
+    <string name="button_update_location">Update Location</string>
+    <string name="button_delete_location">Delete Location</string>
+    <string name="text_latitude">Latitude</string>
+    <string name="text_longitude">Longitude</string>
+    <string name="text_holiday">Holiday</string>
+    <string name="text_type">Type</string>
+</resources>
