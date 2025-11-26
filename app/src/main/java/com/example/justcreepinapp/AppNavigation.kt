@@ -15,6 +15,7 @@ fun AppNavigation(navController: NavController, modifier: Modifier = Modifier) {
         navController = navController as NavHostController,
         startDestination = "home_screen",
         //startDestination = "splash_screen",
+        //startDestination = "map_screen",
         modifier = modifier
     ) {
         composable("splash_screen") {
@@ -64,6 +65,9 @@ fun AppNavigation(navController: NavController, modifier: Modifier = Modifier) {
                 onBackClick = {navController.popBackStack()}
             )
 
+        }
+        composable("map_screen"){
+            //MapScreen(modifier = Modifier)
         }
     }
 }
