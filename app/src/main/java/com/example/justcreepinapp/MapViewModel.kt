@@ -1,4 +1,4 @@
-/*
+
 package com.example.justcreepinapp
 
 import androidx.compose.runtime.mutableStateOf
@@ -19,4 +19,4 @@ class MapViewModel : ViewModel() {
     fun updateLocation(newLocation: LatLng) {
         _eventLocation.value = newLocation
     }
-}*/
+}

@@ -1,4 +1,3 @@
-/*
 package com.example.justcreepinapp
 
 import android.location.Geocoder
@@ -67,7 +66,7 @@ fun MapScreen(modifier: Modifier = Modifier){
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                */
+
 /* Button(
                     onClick = {
                         val geocoder = Geocoder(context)
@@ -90,7 +89,7 @@ fun MapScreen(modifier: Modifier = Modifier){
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text("Go")
-                } *//*
+                } */
 
 
                 Button(
@@ -135,4 +134,4 @@ fun MapScreen(modifier: Modifier = Modifier){
 
         }
     }
-}*/
+}
