@@ -108,7 +108,8 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         id: Int,
         onDone: () -> Unit = {}
     ) {
-        if (holiday.value.isBlank()) return
+        //if (holiday.value.isBlank()) return
+        if (!validateDetails()) return
 
         dbHelper.updateLocation(
             id = id,
