@@ -1,7 +1,11 @@
 package com.example.justcreepinapp
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -47,6 +51,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
+import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -60,6 +66,21 @@ fun DetailScreen(
     val editLocation = locationId != null
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
+    // Location Services
+    val fusedLocationClient = remember {
+        LocationServices.getFusedLocationProviderClient(context)
+    }
+    /*val permissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->*/
+
+
+    // Location Permission
+    var hasLocationPermission by remember { mutableStateOf(false) }
+
+    var permissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean -> hasLocationPermission = isGranted}
 
     var searchQuery by remember { mutableStateOf("") }
     var searchResults by remember { mutableStateOf<List<Address>>(emptyList()) }
@@ -71,6 +92,36 @@ fun DetailScreen(
             locationId?.let { viewModel.loadLocationFieldValues(it) }
         } else {
             viewModel.resetFieldValues()
+        }
+    }
+
+    // Location Permission
+    LaunchedEffect(editLocation) {
+        if (!editLocation) {
+            val granted = ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+
+            if (granted) {
+                hasLocationPermission = true
+            } else {
+                permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            }
+        }
+    }
+
+    LaunchedEffect(hasLocationPermission, editLocation) {
+        if (hasLocationPermission && !editLocation) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                if (location != null) {
+                //viewModel.latitude.value = "${location.latitude},${location.longitude}"
+                    viewModel.latitude.value = "${location.latitude}"
+                    viewModel.longitude.value = "${location.longitude}"
+                    //viewModel.latitude.value = location.latitude.toString()
+                    //viewModel.longitude.value = location.longitude.toString()
+                }
+            }
         }
     }
 
