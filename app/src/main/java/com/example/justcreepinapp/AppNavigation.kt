@@ -67,7 +67,10 @@ fun AppNavigation(navController: NavController, modifier: Modifier = Modifier) {
 
         }
         composable("map_screen"){
-            MapScreen(modifier = Modifier)
+            //MapScreen(modifier = Modifier)
+            MapScreen(modifier = Modifier, appViewModel = appViewModel, onMarkerClick = {locationId ->
+                navController.navigate("detail_screen/$locationId")
+            })
         }
     }
 }

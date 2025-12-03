@@ -33,12 +33,23 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @Composable
-fun MapScreen(modifier: Modifier = Modifier){
+fun MapScreen(modifier: Modifier = Modifier, appViewModel: AppViewModel, onMarkerClick: (Int) -> Unit){
     val viewModel: MapViewModel = viewModel()
     val location by viewModel.eventLocation.collectAsState()
 
+    // Get locations from viewmodel based on holiday selected
+    val locations = appViewModel.locations.value
+
+    // Starting camera position at first location
+    val initialLatLng = locations.firstOrNull()?.let { loc ->
+        val lat = loc.latitude.toDoubleOrNull()
+        val lng = loc.longitude.toDoubleOrNull()
+        if (lat != null && lng != null) LatLng(lat, lng) else location
+    } ?: location
+
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(location, 12f)
+        //position = CameraPosition.fromLatLngZoom(location, 12f)
+        position = CameraPosition.fromLatLngZoom(initialLatLng, 12f)
     }
 
     val coroutineScope = rememberCoroutineScope()
@@ -51,10 +62,33 @@ fun MapScreen(modifier: Modifier = Modifier){
                     modifier = Modifier.fillMaxSize(),
                     cameraPositionState = cameraPositionState
                 ) {
-                    Marker(
+                    // Show marker for each location from database based on holiday selected
+                    locations.forEach { loc ->
+                        val lat = loc.latitude.toDoubleOrNull()
+                        val lng = loc.longitude.toDoubleOrNull()
+                        if (lat != null && lng != null) {
+                            Marker(
+                                state = MarkerState(position = LatLng(lat, lng)),
+                                //title = "${loc.holiday} - ${loc.type}",
+                                title = loc.holiday,
+                                snippet = loc.type,
+                                // makes marker clickable
+                                onClick = {
+                                    //onMarkerClick(loc.id) // which location clicked
+                                    false
+                                },
+
+                                onInfoWindowClick = {
+                                    onMarkerClick(loc.id)
+                                }
+                            )
+                        }
+                    }
+
+                    /*Marker(
                         state = MarkerState(position = location),
                         title = "Selected Location"
-                    )
+                    )*/
                 }
             }
 
@@ -67,29 +101,29 @@ fun MapScreen(modifier: Modifier = Modifier){
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
-/* Button(
-                    onClick = {
-                        val geocoder = Geocoder(context)
-                        val city = viewModel.cityName.value
-                        val addresses = geocoder.getFromLocationName(city, 1)
+                /*Button(
+                                    onClick = {
+                                        val geocoder = Geocoder(context)
+                                        val city = viewModel.cityName.value
+                                        val addresses = geocoder.getFromLocationName(city, 1)
 
-                        if (!addresses.isNullOrEmpty()) {
-                            val addr = addresses[0]
-                            val newLatLng = LatLng(addr.latitude, addr.longitude)
-                            viewModel.updateLocation(newLatLng)
+                                        if (!addresses.isNullOrEmpty()) {
+                                            val addr = addresses[0]
+                                            val newLatLng = LatLng(addr.latitude, addr.longitude)
+                                            viewModel.updateLocation(newLatLng)
 
-                            coroutineScope.launch {
-                                cameraPositionState.animate(
-                                    CameraUpdateFactory.newLatLngZoom(newLatLng, 12f),
-                                    1000
-                                )
-                            }
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Go")
-                } */
+                                            coroutineScope.launch {
+                                                cameraPositionState.animate(
+                                                    CameraUpdateFactory.newLatLngZoom(newLatLng, 12f),
+                                                    1000
+                                                )
+                                            }
+                                        }
+                                    },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text("Go")
+                                }*/
 
 
                 Button(
@@ -127,6 +161,7 @@ fun MapScreen(modifier: Modifier = Modifier){
                 ) {
                     Text("Go")
                 }
+
 
 
 
