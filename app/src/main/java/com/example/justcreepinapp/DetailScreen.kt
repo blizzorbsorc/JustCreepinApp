@@ -214,6 +214,23 @@ fun DetailScreen(
 
                 Spacer(Modifier.height(8.dp))
 
+                Spacer(Modifier.height(12.dp))
+                OutlinedTextField(
+                    value = viewModel.latitude.value,
+                    onValueChange = {viewModel.latitude.value=it},
+                    label = {Text(stringResource(R.string.text_latitude))},
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(Modifier.height(12.dp))
+                OutlinedTextField(
+                    value = viewModel.longitude.value,
+                    onValueChange = {viewModel.longitude.value=it},
+                    label = {Text(stringResource(R.string.text_longitude))},
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                Spacer(Modifier.height(8.dp))
+
                 // Search Results
                 if (showResults && searchResults.isNotEmpty()) {
                     Card(
