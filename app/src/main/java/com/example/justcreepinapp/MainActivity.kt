@@ -15,7 +15,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.justcreepinapp.components.NavBar
 import com.example.justcreepinapp.ui.theme.JustCreepinAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -30,12 +32,31 @@ class MainActivity : ComponentActivity() {
                     SplashScreen(onTimeout = { showSplash = false })
                 } else {
                     val navController = rememberNavController()
-                    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    /*Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                         AppNavigation(
                             navController = navController,
                             modifier = Modifier.padding(innerPadding)
                         )
+                    }*/
+
+                    // Keep track of the current route
+                    val navBackStackEntry by navController.currentBackStackEntryAsState()
+                    val currentRoute = navBackStackEntry?.destination?.route
+
+                    // Define listOf routes that show NavBar
+                    val routesWithNavBar = listOf("map_screen", "list_screen", "detail_screen")
+
+                    // Check if currentRoute is in listOf routes that show NavBar
+                    val shouldShowNavBar = routesWithNavBar.any { currentRoute?.startsWith(it) == true }
+
+                    Scaffold(
+                        bottomBar = { if (shouldShowNavBar) NavBar(navController = navController) }
+
+                    ) {
+                            innerPadding ->
+                        AppNavigation(navController = navController, modifier = Modifier.padding(innerPadding))
                     }
+
                 }
             }
         }
