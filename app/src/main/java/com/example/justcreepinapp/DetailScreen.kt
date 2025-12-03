@@ -66,6 +66,11 @@ fun DetailScreen(
     val editLocation = locationId != null
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
+    val validationState = viewModel.detailValidationState.value
+    val typeInvalidText = (validationState as? ValidationDetails.Invalid)?.typeInvalid
+    val latitudeInvalidText = (validationState as? ValidationDetails.Invalid)?.latitudeInvalid
+    val longitudeInvalidText = (validationState as? ValidationDetails.Invalid)?.longitudeInvalid
+
     // Location Services
     val fusedLocationClient = remember {
         LocationServices.getFusedLocationProviderClient(context)
@@ -203,6 +208,11 @@ fun DetailScreen(
                         unfocusedLabelColor = Color(0xFF625b71)
                     )
                 )
+                if (typeInvalidText != null) {
+                    Text(
+                        text = typeInvalidText,
+                        color = MaterialTheme.colorScheme.error)
+                }
 
                 Spacer(Modifier.height(16.dp))
 
@@ -272,13 +282,30 @@ fun DetailScreen(
                     label = {Text(stringResource(R.string.text_latitude))},
                     modifier = Modifier.fillMaxWidth()
                 )
+                if (latitudeInvalidText != null) {
+                    Text(
+                        text = latitudeInvalidText,
+                        color = MaterialTheme.colorScheme.error)
+                }
                 Spacer(Modifier.height(12.dp))
                 OutlinedTextField(
                     value = viewModel.longitude.value,
                     onValueChange = {viewModel.longitude.value=it},
                     label = {Text(stringResource(R.string.text_longitude))},
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 )
+                if (longitudeInvalidText != null) {
+                    Text(
+                        text = longitudeInvalidText,
+                        color = MaterialTheme.colorScheme.error)
+                }
+
+                /*Spacer(Modifier.height(8.dp))
+                if (typeInvalidText != null) {
+                    Text(
+                        text = typeInvalidText,
+                        color = MaterialTheme.colorScheme.error)
+                }*/
 
                 Spacer(Modifier.height(8.dp))
 

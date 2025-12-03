@@ -19,6 +19,53 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     var type = mutableStateOf("")
     var latitude = mutableStateOf("")
     var longitude = mutableStateOf("")
+    var detailValidationState = mutableStateOf<ValidationDetails>(ValidationDetails.Valid)
+        private set
+
+    // Validate details
+    private fun validateDetails(): Boolean {
+        var typeInvalid: String? = null
+        var latitudeInvalid: String? = null
+        var longitudeInvalid: String? = null
+
+        // Validate type
+        if (type.value.isBlank()) {
+            typeInvalid = "Type cannot be empty"
+        }
+
+        // Validate latitude
+        //val lat = latitude.value
+        if (latitude.value.isBlank()) {
+            latitudeInvalid = "Latitude cannot be empty"
+        } else if (latitude.value.toDoubleOrNull() == null) {
+            latitudeInvalid = "Invalid latitude format"
+        }
+
+        // Validate longitude
+        //val lon = longitude.value
+        if (longitude.value.isBlank()) {
+            longitudeInvalid = "Longitude cannot be empty"
+        } else if (longitude.value.toDoubleOrNull() == null) {
+            longitudeInvalid = "Invalid longitude format"
+        }
+
+        // Update validation state
+        detailValidationState.value =
+            if (typeInvalid != null || latitudeInvalid != null || longitudeInvalid != null) {
+                ValidationDetails.Invalid(
+                    typeInvalid = typeInvalid,
+                    latitudeInvalid = latitudeInvalid,
+                    longitudeInvalid = longitudeInvalid)
+            } else {
+                ValidationDetails.Valid
+            }
+
+        return detailValidationState.value is ValidationDetails.Valid
+    }
+
+    init {
+        loadLocations(holidays.first())
+    }
 
     fun loadLocations(selectedHoliday: String) {
         holiday.value = selectedHoliday
@@ -41,7 +88,9 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun addLocation(onDone: () -> Unit = {}){
-        if (holiday.value.isBlank()) return
+        //if (holiday.value.isBlank()) return
+
+        if (!validateDetails()) return
 
         dbHelper.insertLocation(
             holiday = holiday.value,
