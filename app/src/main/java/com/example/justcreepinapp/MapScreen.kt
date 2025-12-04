@@ -95,7 +95,7 @@ fun MapScreen(modifier: Modifier = Modifier, appViewModel: AppViewModel, onMarke
                     cameraPositionState = cameraPositionState
                 ) {
                     // Show marker for each location from database based on holiday selected
-                    locations.forEach { loc ->
+                    filteredLocations.forEach { loc ->
                         val lat = loc.latitude.toDoubleOrNull()
                         val lng = loc.longitude.toDoubleOrNull()
                         if (lat != null && lng != null) {
