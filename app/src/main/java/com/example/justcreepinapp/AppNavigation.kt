@@ -14,8 +14,6 @@ fun AppNavigation(navController: NavController, modifier: Modifier = Modifier) {
     NavHost(
         navController = navController as NavHostController,
         startDestination = "home_screen",
-        //startDestination = "splash_screen",
-        //startDestination = "map_screen",
         modifier = modifier
     ) {
         composable("splash_screen") {
@@ -26,14 +24,18 @@ fun AppNavigation(navController: NavController, modifier: Modifier = Modifier) {
             })
         }
         composable("home_screen"){
-            //val appViewModel: AppViewModel = viewModel()
             HomeScreen(
                 viewModel = appViewModel,
                 onHolidayClick = {
                     navController.navigate(("list_screen"))
+                },
+                onCommunityClick = {
+                    navController.navigate("chat_screen")
+                },
+                onProfileClick = {
+                    navController.navigate("profile_screen")
                 }
             )
-            //HomeScreen()
         }
         composable("list_screen"){
             ListScreen(
@@ -57,20 +59,29 @@ fun AppNavigation(navController: NavController, modifier: Modifier = Modifier) {
             )
         }
         composable("detail_screen/{locationId}"){backstackEntry ->
-
             val locationId = backstackEntry.arguments?.getString("locationId")?.toIntOrNull()
             DetailScreen(
                 viewModel = appViewModel,
                 locationId = locationId,
                 onBackClick = {navController.popBackStack()}
             )
-
+        }
+        composable("chat_screen"){
+            ChatScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
+        composable("profile_screen"){
+            ProfileScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
         }
         composable("map_screen"){
             //MapScreen(modifier = Modifier)
-            MapScreen(modifier = Modifier, appViewModel = appViewModel, onMarkerClick = {locationId ->
-                navController.navigate("detail_screen/$locationId")
-            })
         }
     }
 }

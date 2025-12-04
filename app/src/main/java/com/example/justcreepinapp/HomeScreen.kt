@@ -2,6 +2,7 @@ package com.example.justcreepinapp
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -44,7 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
+fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit, onCommunityClick: () -> Unit, onProfileClick: () -> Unit) {
     // Gradient background matching splash screen
     val gradient = Brush.linearGradient(
         colors = listOf(
@@ -89,7 +90,7 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
 
                 // User icon on the right
                 IconButton(
-                    onClick = { /* TODO: Handle user profile click */ },
+                    onClick = onProfileClick,
                     modifier = Modifier
                         .size(60.dp)
                         .background(Color.White.copy(alpha = 0.25f), CircleShape)
@@ -178,7 +179,8 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
                     )
                     FeatureItem(
                         icon = Icons.Default.Share,
-                        text = "Community"
+                        text = "Community",
+                        onClick = onCommunityClick
                     )
                 }
 
@@ -257,9 +259,10 @@ fun HolidayCard(
 }
 
 @Composable
-fun FeatureItem(icon: ImageVector, text: String) {
+fun FeatureItem(icon: ImageVector, text: String, onClick: (() -> Unit)? = null) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.clickable(enabled = onClick != null) { onClick?.invoke() }
     ) {
         Box(
             modifier = Modifier
