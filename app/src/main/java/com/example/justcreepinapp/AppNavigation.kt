@@ -30,7 +30,7 @@ fun AppNavigation(navController: NavController, modifier: Modifier = Modifier) {
             HomeScreen(
                 viewModel = appViewModel,
                 onHolidayClick = {
-                    navController.navigate(("list_screen"))
+                    navController.navigate(("map_screen"))
                 }
             )
             //HomeScreen()
