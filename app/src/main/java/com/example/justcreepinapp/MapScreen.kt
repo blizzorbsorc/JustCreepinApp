@@ -48,7 +48,6 @@ fun MapScreen(modifier: Modifier = Modifier, appViewModel: AppViewModel, onMarke
     } ?: location
 
     val cameraPositionState = rememberCameraPositionState {
-        //position = CameraPosition.fromLatLngZoom(location, 12f)
         position = CameraPosition.fromLatLngZoom(initialLatLng, 12f)
     }
 
@@ -69,12 +68,10 @@ fun MapScreen(modifier: Modifier = Modifier, appViewModel: AppViewModel, onMarke
                         if (lat != null && lng != null) {
                             Marker(
                                 state = MarkerState(position = LatLng(lat, lng)),
-                                //title = "${loc.holiday} - ${loc.type}",
                                 title = loc.holiday,
                                 snippet = loc.type,
                                 // makes marker clickable
                                 onClick = {
-                                    //onMarkerClick(loc.id) // which location clicked
                                     false
                                 },
 
@@ -84,11 +81,6 @@ fun MapScreen(modifier: Modifier = Modifier, appViewModel: AppViewModel, onMarke
                             )
                         }
                     }
-
-                    /*Marker(
-                        state = MarkerState(position = location),
-                        title = "Selected Location"
-                    )*/
                 }
             }
 
@@ -100,31 +92,6 @@ fun MapScreen(modifier: Modifier = Modifier, appViewModel: AppViewModel, onMarke
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-
-                /*Button(
-                                    onClick = {
-                                        val geocoder = Geocoder(context)
-                                        val city = viewModel.cityName.value
-                                        val addresses = geocoder.getFromLocationName(city, 1)
-
-                                        if (!addresses.isNullOrEmpty()) {
-                                            val addr = addresses[0]
-                                            val newLatLng = LatLng(addr.latitude, addr.longitude)
-                                            viewModel.updateLocation(newLatLng)
-
-                                            coroutineScope.launch {
-                                                cameraPositionState.animate(
-                                                    CameraUpdateFactory.newLatLngZoom(newLatLng, 12f),
-                                                    1000
-                                                )
-                                            }
-                                        }
-                                    },
-                                    modifier = Modifier.fillMaxWidth()
-                                ) {
-                                    Text("Go")
-                                }*/
-
 
                 Button(
                     onClick = {
