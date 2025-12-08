@@ -42,6 +42,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.justcreepinapp.ui.theme.AppTheme
+import com.example.justcreepinapp.ui.theme.DeepPurple
+import com.example.justcreepinapp.ui.theme.SoftPink
 
 // Home Screen
 @Composable
@@ -60,7 +63,7 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(brush = gradient)
+            .background(brush = AppTheme.gradient)
     ) {
         Column(
             modifier = Modifier
@@ -93,12 +96,12 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
                     onClick = { /* TODO: Handle user profile click */ },
                     modifier = Modifier
                         .size(60.dp)
-                        .background(Color.White.copy(alpha = 0.25f), CircleShape)
+                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.25f), CircleShape)
                 ) {
                     Icon(
                         imageVector = Icons.Default.AccountCircle,
                         contentDescription = "User Profile",
-                        tint = Color.White,
+                        tint = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.size(36.dp)
                     )
                 }
@@ -114,7 +117,7 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
                     text = "Just Creepin'",
                     fontSize = 42.sp,
                     fontWeight = FontWeight.Black,
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onBackground,
                     letterSpacing = 1.sp
                 )
 
@@ -124,7 +127,7 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
                     text = "Discover Holiday Magic",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Medium,
-                    color = Color.White.copy(alpha = 0.95f),
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.95f),
                     letterSpacing = 0.5.sp
                 )
             }
@@ -142,7 +145,9 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
                     title = stringResource(R.string.button_halloween),
                     subtitle = "Find candy & spooky decorations",
                     emoji = "🎃",
-                    backgroundColor = Color(0xFF6650a4),
+                    //highlightColor = DeepPurple,
+                    //backgroundColor = DeepPurple,
+                    backgroundColor = SoftPink,
                     onClick = {
                         viewModel.loadLocations("Halloween")
                         onHolidayClick()
@@ -156,7 +161,7 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
                     title = stringResource(R.string.button_christmas),
                     subtitle = "Explore festive lights & displays",
                     emoji = "🎄",
-                    backgroundColor = Color(0xFFEFB8C8),
+                    backgroundColor = SoftPink,
                     onClick = {
                         viewModel.loadLocations("Christmas")
                         onHolidayClick()
@@ -189,7 +194,8 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
                     text = "Share & discover the best holiday spots",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
-                    color = Color.White.copy(alpha = 0.85f),
+                    //color = Color.White.copy(alpha = 0.85f),
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.85f),
                     textAlign = TextAlign.Center
                 )
             }
@@ -213,7 +219,7 @@ fun HolidayCard(
             .padding(horizontal = 16.dp),
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White.copy(alpha = 0.95f)
+            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f)
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 12.dp)
     ) {
@@ -266,14 +272,15 @@ fun FeatureItem(icon: ImageVector, text: String) {
     ) {
         Box(
             modifier = Modifier
-                .size(50.dp)
-                .background(Color.White.copy(alpha = 0.25f), CircleShape),
+                .size(50.dp).background(MaterialTheme.colorScheme.primary.copy(alpha = 0.25f), CircleShape),
+                //.background(Color.White.copy(alpha = 0.25f), CircleShape),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = text,
-                tint = Color.White,
+                //tint = Color.White,
+                tint = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.size(28.dp)
             )
         }
@@ -282,7 +289,8 @@ fun FeatureItem(icon: ImageVector, text: String) {
             text = text,
             fontSize = 12.sp,
             fontWeight = FontWeight.Medium,
-            color = Color.White.copy(alpha = 0.9f)
+            //color = Color.White.copy(alpha = 0.9f)
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.9f)
         )
     }
 }
