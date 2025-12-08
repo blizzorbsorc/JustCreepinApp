@@ -3,6 +3,7 @@ package com.example.justcreepinapp
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,13 +47,25 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit, onCommunityClick: () -> Unit, onProfileClick: () -> Unit) {
-    // Gradient background matching splash screen
+    val isDarkTheme = isSystemInDarkTheme()
+
+    // Gradient background that adapts to theme - ACTUALLY DARK
+    val gradientColors = if (isDarkTheme) {
+        listOf(
+            Color(0xFF0D0221), // Very dark purple - almost black
+            Color(0xFF1A0B2E), // Deep dark purple
+            Color(0xFF2D1B3D)  // Dark purple
+        )
+    } else {
+        listOf(
+            Color(0xFF6650a4), // Purple40
+            Color(0xFFD0BCFF), // Purple80
+            Color(0xFFEFB8C8)  // Pink80
+        )
+    }
+
     val gradient = Brush.linearGradient(
-        colors = listOf(
-            Color(0xFF6650a4), // Purple40 - deep purple
-            Color(0xFFD0BCFF), // Purple80 - light purple
-            Color(0xFFEFB8C8)  // Pink80 - soft pink
-        ),
+        colors = gradientColors,
         start = Offset(0f, 0f),
         end = Offset(1000f, 1000f)
     )
@@ -206,6 +219,8 @@ fun HolidayCard(
     backgroundColor: Color,
     onClick: () -> Unit
 ) {
+    val isDarkTheme = isSystemInDarkTheme()
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -213,7 +228,7 @@ fun HolidayCard(
             .padding(horizontal = 16.dp),
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White.copy(alpha = 0.95f)
+            containerColor = if (isDarkTheme) Color(0xFF1E1E1E) else Color.White.copy(alpha = 0.95f)
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 12.dp)
     ) {
@@ -242,7 +257,7 @@ fun HolidayCard(
                         text = title,
                         fontSize = 32.sp,
                         fontWeight = FontWeight.Bold,
-                        color = backgroundColor,
+                        color = if (isDarkTheme) Color.White else backgroundColor,
                         letterSpacing = 0.5.sp
                     )
                     Spacer(Modifier.height(4.dp))
@@ -250,7 +265,7 @@ fun HolidayCard(
                         text = subtitle,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Normal,
-                        color = backgroundColor.copy(alpha = 0.8f)
+                        color = if (isDarkTheme) Color.White.copy(alpha = 0.7f) else backgroundColor.copy(alpha = 0.8f)
                     )
                 }
             }

@@ -1,6 +1,7 @@
 package com.example.justcreepinapp
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -53,14 +54,25 @@ fun ListScreen(
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
+    val isDarkTheme = isSystemInDarkTheme()
 
-    // Gradient background matching home screen
+    // Gradient background that adapts to theme - ACTUALLY DARK
+    val gradientColors = if (isDarkTheme) {
+        listOf(
+            Color(0xFF0D0221),
+            Color(0xFF1A0B2E),
+            Color(0xFF2D1B3D)
+        )
+    } else {
+        listOf(
+            Color(0xFF6650a4),
+            Color(0xFFD0BCFF),
+            Color(0xFFEFB8C8)
+        )
+    }
+
     val gradient = Brush.linearGradient(
-        colors = listOf(
-            Color(0xFF6650a4), // Purple40 - deep purple
-            Color(0xFFD0BCFF), // Purple80 - light purple
-            Color(0xFFEFB8C8)  // Pink80 - soft pink
-        ),
+        colors = gradientColors,
         start = Offset(0f, 0f),
         end = Offset(1000f, 1000f)
     )

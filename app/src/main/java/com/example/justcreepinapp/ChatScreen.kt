@@ -1,6 +1,7 @@
 package com.example.justcreepinapp
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,7 +56,8 @@ data class ChatMessage(
 @Composable
 fun ChatScreen(onBackClick: () -> Unit) {
     var messageText by remember { mutableStateOf("") }
-    val youText = stringResource(R.string.chat_you) // Get string outside onClick
+    val youText = stringResource(R.string.chat_you)
+    val isDarkTheme = isSystemInDarkTheme()
     var messages by remember {
         mutableStateOf(listOf(
             ChatMessage(
@@ -91,13 +93,23 @@ fun ChatScreen(onBackClick: () -> Unit) {
         }
     }
 
-    // Gradient background matching home screen
-    val gradient = Brush.linearGradient(
-        colors = listOf(
+    // Gradient background that adapts to theme
+    val gradientColors = if (isDarkTheme) {
+        listOf(
+            Color(0xFF2D1B3D),
+            Color(0xFF4A3A5C),
+            Color(0xFF6B5B73)
+        )
+    } else {
+        listOf(
             Color(0xFF6650a4),
             Color(0xFFD0BCFF),
             Color(0xFFEFB8C8)
-        ),
+        )
+    }
+
+    val gradient = Brush.linearGradient(
+        colors = gradientColors,
         start = Offset(0f, 0f),
         end = Offset(1000f, 1000f)
     )
