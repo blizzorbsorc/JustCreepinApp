@@ -52,6 +52,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import com.example.justcreepinapp.ui.theme.AppTheme
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -140,7 +141,7 @@ fun DetailScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(brush = gradient)
+            .background(brush = AppTheme.gradient)
     ) {
         LazyColumn(
             modifier = Modifier
@@ -158,12 +159,12 @@ fun DetailScreen(
                     IconButton(
                         onClick = onBackClick,
                         modifier = Modifier
-                            .background(Color.White.copy(alpha = 0.3f), RoundedCornerShape(12.dp))
+                            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.25f), RoundedCornerShape(12.dp))
                     ) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Back",
-                            tint = Color.White
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
 
@@ -171,7 +172,7 @@ fun DetailScreen(
                         text = if (editLocation) "Edit Location" else "Add Location",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.padding(start = 16.dp)
                     )
                 }
@@ -183,7 +184,7 @@ fun DetailScreen(
                     text = "Holiday: ${viewModel.holiday.value}",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
 
@@ -195,14 +196,36 @@ fun DetailScreen(
                     placeholder = { Text("e.g., Giant Inflatable, Light Display") },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
+                    /*colors = OutlinedTextFieldDefaults.colors(
+                        focusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
+                        focusedLabelColor = MaterialTheme.colorScheme.primary,
+                        unfocusedLabelColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.7f)
+                    )*/
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedContainerColor = Color.White.copy(alpha = 0.95f),
-                        unfocusedContainerColor = Color.White.copy(alpha = 0.95f),
-                        focusedBorderColor = Color(0xFF6650a4),
-                        unfocusedBorderColor = Color.White.copy(alpha = 0.5f),
-                        focusedLabelColor = Color(0xFF6650a4),
-                        unfocusedLabelColor = Color(0xFF625b71)
+                        // Field background
+                        focusedContainerColor = MaterialTheme.colorScheme.surface,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+
+                        // Border
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+
+                        // Label (this is what fixes your contrast issue)
+                        focusedLabelColor = MaterialTheme.colorScheme.onBackground,
+                        unfocusedLabelColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
+
+                        // Text / cursor / placeholder
+                        cursorColor = MaterialTheme.colorScheme.primary,
+                        focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
                     )
+
+
                 )
                 if (typeInvalidText != null) {
                     Text(
@@ -228,7 +251,7 @@ fun DetailScreen(
                             CircularProgressIndicator(
                                 modifier = Modifier.padding(12.dp),
                                 strokeWidth = 2.dp,
-                                color = Color(0xFF6650a4)
+                                color = MaterialTheme.colorScheme.primary
                             )
                         } else {
                             IconButton(onClick = {
@@ -254,18 +277,18 @@ fun DetailScreen(
                                 Icon(
                                     imageVector = Icons.Default.Search,
                                     contentDescription = "Search",
-                                    tint = Color(0xFF6650a4)
+                                    tint = MaterialTheme.colorScheme.primary
                                 )
                             }
                         }
                     },
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedContainerColor = Color.White.copy(alpha = 0.95f),
-                        unfocusedContainerColor = Color.White.copy(alpha = 0.95f),
-                        focusedBorderColor = Color(0xFF6650a4),
-                        unfocusedBorderColor = Color.White.copy(alpha = 0.5f),
-                        focusedLabelColor = Color(0xFF6650a4),
-                        unfocusedLabelColor = Color(0xFF625b71)
+                        focusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
+                        focusedLabelColor = MaterialTheme.colorScheme.primary,
+                        unfocusedLabelColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.7f)
                     )
                 )
 
@@ -315,7 +338,7 @@ fun DetailScreen(
                             .heightIn(max = 300.dp),
                         shape = RoundedCornerShape(16.dp),
                         colors = CardDefaults.cardColors(
-                            containerColor = Color.White.copy(alpha = 0.95f)
+                            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f)
                         ),
                         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
                     ) {
@@ -339,7 +362,7 @@ fun DetailScreen(
                                         }
                                         .padding(12.dp),
                                     fontSize = 14.sp,
-                                    color = Color(0xFF625b71)
+                                    color = MaterialTheme.colorScheme.onSurface
                                 )
                             }
                         }
@@ -353,7 +376,9 @@ fun DetailScreen(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(16.dp),
                         colors = CardDefaults.cardColors(
-                            containerColor = Color(0xFF6650a4).copy(alpha = 0.2f)
+                            //containerColor = Color(0xFF6650a4).copy(alpha = 0.2f)
+                            //containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f)
+                            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.2f)
                         )
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
@@ -361,13 +386,15 @@ fun DetailScreen(
                                 text = "Selected Address:",
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color.White
+                                //color = Color.White
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                             Spacer(Modifier.height(4.dp))
                             Text(
                                 text = viewModel.latitude.value,
                                 fontSize = 14.sp,
-                                color = Color.White
+                                //color = MaterialTheme.colorScheme.onSurface
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
                     }
@@ -381,7 +408,8 @@ fun DetailScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(
-                            color = Color.White.copy(alpha = 0.3f),
+                            //color = Color.White.copy(alpha = 0.3f),
+                            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.3f),
                             shape = RoundedCornerShape(20.dp)
                         )
                         .padding(8.dp)
@@ -402,7 +430,8 @@ fun DetailScreen(
                             .fillMaxWidth()
                             .height(56.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.White.copy(alpha = 0.95f)
+                            //containerColor = Color.White.copy(alpha = 0.95f)
+                            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f)
                         ),
                         shape = RoundedCornerShape(16.dp),
                         elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp),
@@ -412,7 +441,8 @@ fun DetailScreen(
                             text = if (editLocation) "Update Location" else "Add Location",
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF6650a4)
+                            //color = Color(0xFF6650a4)
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 }
@@ -430,7 +460,7 @@ fun DetailScreen(
                             .fillMaxWidth()
                             .height(56.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFFEF5350).copy(alpha = 0.9f)
+                            containerColor = MaterialTheme.colorScheme.primary
                         ),
                         shape = RoundedCornerShape(16.dp),
                         elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp)
@@ -439,7 +469,7 @@ fun DetailScreen(
                             text = "Delete Location",
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color.White
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 }
