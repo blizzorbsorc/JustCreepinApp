@@ -1,8 +1,8 @@
 package com.example.justcreepinapp.components
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -16,7 +16,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 @Composable
 fun NavBar(navController: NavController) {
     val items = listOf("home_screen", "map_screen", "list_screen")
-    val icons = listOf(Icons.Default.Home, Icons.Filled.Map, Icons.Filled.List)
+    val icons = listOf(Icons.Default.Home, Icons.Filled.Map, Icons.AutoMirrored.Filled.List)
     val labels = listOf("Home", "Map", "List")
 
     // Add a navigation item for each item in items
