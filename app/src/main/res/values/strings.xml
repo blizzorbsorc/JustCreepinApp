@@ -37,4 +37,7 @@
     <string name="go">Go</string>
     <string name="all_types">All types</string>
     <string name="open_type_filter">Open type filter</string>
+    <string name="home">Home</string>
+    <string name="map">Map</string>
+    <string name="list">List</string>
 </resources>

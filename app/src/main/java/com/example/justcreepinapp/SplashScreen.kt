@@ -42,17 +42,6 @@ fun SplashScreen(onTimeout: () -> Unit) {
         onTimeout()
     }
 
-    // Gradient using your app's color theme
-    Brush.linearGradient(
-        colors = listOf(
-            Color(0xFF6650a4),
-            Color(0xFFD0BCFF),
-            Color(0xFFEFB8C8)
-        ),
-        start = Offset(0f, 0f),
-        end = Offset(1000f, 1000f)
-    )
-
     Box(
         modifier = Modifier
             .fillMaxSize()

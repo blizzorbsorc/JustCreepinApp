@@ -30,8 +30,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
@@ -46,16 +44,6 @@ import com.example.justcreepinapp.ui.theme.SoftPink
 // Home Screen
 @Composable
 fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
-    // Gradient background matching splash screen
-    Brush.linearGradient(
-        colors = listOf(
-            Color(0xFF6650a4), // Purple40 - deep purple
-            Color(0xFFD0BCFF), // Purple80 - light purple
-            Color(0xFFEFB8C8)  // Pink80 - soft pink
-        ),
-        start = Offset(0f, 0f),
-        end = Offset(1000f, 1000f)
-    )
 
     Box(
         modifier = Modifier
@@ -147,7 +135,8 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
                     emoji = "🎃",
                     //highlightColor = DeepPurple,
                     //backgroundColor = DeepPurple,
-                    backgroundColor = SoftPink,
+                    //backgroundColor = SoftPink,
+                    backgroundColor = MaterialTheme.colorScheme.primary,
                     onClick = {
                         viewModel.loadLocations("Halloween")
                         onHolidayClick()
@@ -194,7 +183,6 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
                     text = stringResource(R.string.share_discover_the_best_holiday_spots),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
-                    //color = Color.White.copy(alpha = 0.85f),
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.85f),
                     textAlign = TextAlign.Center
                 )
@@ -274,13 +262,11 @@ fun FeatureItem(icon: ImageVector, text: String) {
             modifier = Modifier
                 .size(50.dp)
                 .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.25f), CircleShape),
-                //.background(Color.White.copy(alpha = 0.25f), CircleShape),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = text,
-                //tint = Color.White,
                 tint = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.size(28.dp)
             )
@@ -290,7 +276,6 @@ fun FeatureItem(icon: ImageVector, text: String) {
             text = text,
             fontSize = 12.sp,
             fontWeight = FontWeight.Medium,
-            //color = Color.White.copy(alpha = 0.9f)
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.9f)
         )
     }

@@ -20,7 +20,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -42,9 +42,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -126,17 +123,6 @@ fun DetailScreen(
         }
     }
 
-    // Gradient background matching home screen
-    Brush.linearGradient(
-        colors = listOf(
-            Color(0xFF6650a4),
-            Color(0xFFD0BCFF),
-            Color(0xFFEFB8C8)
-        ),
-        start = Offset(0f, 0f),
-        end = Offset(1000f, 1000f)
-    )
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -161,7 +147,7 @@ fun DetailScreen(
                             .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.25f), RoundedCornerShape(12.dp))
                     ) {
                         Icon(
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.back),
                             tint = MaterialTheme.colorScheme.primary
                         )
@@ -204,19 +190,23 @@ fun DetailScreen(
                         unfocusedContainerColor = MaterialTheme.colorScheme.surface,
 
                         // Border
-                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        //focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        focusedBorderColor = MaterialTheme.colorScheme.tertiary,
                         unfocusedBorderColor = MaterialTheme.colorScheme.outline,
 
                         // Label (this is what fixes your contrast issue)
-                        focusedLabelColor = MaterialTheme.colorScheme.onBackground,
-                        unfocusedLabelColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
+                        //focusedLabelColor = MaterialTheme.colorScheme.onBackground,
+                        focusedLabelColor = MaterialTheme.colorScheme.primary,
+                        //unfocusedLabelColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
+                        unfocusedLabelColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
+
 
                         // Text / cursor / placeholder
                         cursorColor = MaterialTheme.colorScheme.primary,
                         focusedTextColor = MaterialTheme.colorScheme.onSurface,
                         unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
-                        focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
+                        focusedPlaceholderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                        unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                     )
 
 
@@ -315,13 +305,6 @@ fun DetailScreen(
                         color = MaterialTheme.colorScheme.error)
                 }
 
-                /*Spacer(Modifier.height(8.dp))
-                if (typeInvalidText != null) {
-                    Text(
-                        text = typeInvalidText,
-                        color = MaterialTheme.colorScheme.error)
-                }*/
-
                 Spacer(Modifier.height(8.dp))
 
                 // Search Results
@@ -371,8 +354,6 @@ fun DetailScreen(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(16.dp),
                         colors = CardDefaults.cardColors(
-                            //containerColor = Color(0xFF6650a4).copy(alpha = 0.2f)
-                            //containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f)
                             containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.2f)
                         )
                     ) {
@@ -381,14 +362,12 @@ fun DetailScreen(
                                 text = stringResource(R.string.selected_address),
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Bold,
-                                //color = Color.White
                                 color = MaterialTheme.colorScheme.onBackground
                             )
                             Spacer(Modifier.height(4.dp))
                             Text(
                                 text = viewModel.latitude.value,
                                 fontSize = 14.sp,
-                                //color = MaterialTheme.colorScheme.onSurface
                                 color = MaterialTheme.colorScheme.onBackground
                             )
                         }
@@ -403,7 +382,6 @@ fun DetailScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(
-                            //color = Color.White.copy(alpha = 0.3f),
                             color = MaterialTheme.colorScheme.surface.copy(alpha = 0.3f),
                             shape = RoundedCornerShape(20.dp)
                         )
@@ -425,7 +403,6 @@ fun DetailScreen(
                             .fillMaxWidth()
                             .height(56.dp),
                         colors = ButtonDefaults.buttonColors(
-                            //containerColor = Color.White.copy(alpha = 0.95f)
                             containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f)
                         ),
                         shape = RoundedCornerShape(16.dp),
@@ -436,7 +413,6 @@ fun DetailScreen(
                             text = if (editLocation) stringResource(R.string.update_location) else stringResource(R.string.button_add_location),
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
-                            //color = Color(0xFF6650a4)
                             color = MaterialTheme.colorScheme.onPrimary
                         )
                     }

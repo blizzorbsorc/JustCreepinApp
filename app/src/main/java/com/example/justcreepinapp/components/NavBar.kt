@@ -9,15 +9,19 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.justcreepinapp.R
 
 // Define a navigation bar
 @Composable
 fun NavBar(navController: NavController) {
     val items = listOf("home_screen", "map_screen", "list_screen")
     val icons = listOf(Icons.Default.Home, Icons.Filled.Map, Icons.AutoMirrored.Filled.List)
-    val labels = listOf("Home", "Map", "List")
+    val labels = listOf(stringResource(R.string.home), stringResource(R.string.map),
+        stringResource(R.string.list)
+    )
 
     // Add a navigation item for each item in items
     NavigationBar {

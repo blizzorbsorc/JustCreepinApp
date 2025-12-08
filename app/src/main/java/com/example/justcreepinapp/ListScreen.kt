@@ -14,7 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -31,9 +31,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -53,17 +50,6 @@ fun ListScreen(
     LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
     rememberCoroutineScope()
-
-    // Gradient background matching home screen
-    Brush.linearGradient(
-        colors = listOf(
-            Color(0xFF6650a4), // Purple40 - deep purple
-            Color(0xFFD0BCFF), // Purple80 - light purple
-            Color(0xFFEFB8C8)  // Pink80 - soft pink
-        ),
-        start = Offset(0f, 0f),
-        end = Offset(1000f, 1000f)
-    )
 
     Box(
         modifier = Modifier
@@ -90,7 +76,7 @@ fun ListScreen(
                         .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.25f), RoundedCornerShape(12.dp))
                 ) {
                     Icon(
-                        imageVector = Icons.Default.ArrowBack,
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = stringResource(R.string.back),
                         tint = MaterialTheme.colorScheme.primary
                     )
