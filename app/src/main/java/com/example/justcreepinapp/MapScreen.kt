@@ -3,15 +3,25 @@ package com.example.justcreepinapp
 import android.location.Geocoder
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -19,7 +29,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
@@ -40,6 +54,24 @@ fun MapScreen(modifier: Modifier = Modifier, appViewModel: AppViewModel, onMarke
     // Get locations from viewmodel based on holiday selected
     val locations = appViewModel.locations.value
 
+    // Get all types from locations
+    val allTypes = remember(locations) {
+        locations.map { it.type }.distinct().sorted()
+    }
+
+    // Multiselect filter
+    var selectedTypes by remember { mutableStateOf<Set<String>>(emptySet()) }
+    selectedTypes.isEmpty()
+
+    // Filter locations based on selected types
+    val filteredLocations = remember(locations, selectedTypes) {
+        if (selectedTypes.isEmpty()) {
+            locations
+        } else {
+            locations.filter { it.type in selectedTypes }
+        }
+    }
+
     // Starting camera position at first location
     val initialLatLng = locations.firstOrNull()?.let { loc ->
         val lat = loc.latitude.toDoubleOrNull()
@@ -48,7 +80,6 @@ fun MapScreen(modifier: Modifier = Modifier, appViewModel: AppViewModel, onMarke
     } ?: location
 
     val cameraPositionState = rememberCameraPositionState {
-        //position = CameraPosition.fromLatLngZoom(location, 12f)
         position = CameraPosition.fromLatLngZoom(initialLatLng, 12f)
     }
 
@@ -63,18 +94,16 @@ fun MapScreen(modifier: Modifier = Modifier, appViewModel: AppViewModel, onMarke
                     cameraPositionState = cameraPositionState
                 ) {
                     // Show marker for each location from database based on holiday selected
-                    locations.forEach { loc ->
+                    filteredLocations.forEach { loc ->
                         val lat = loc.latitude.toDoubleOrNull()
                         val lng = loc.longitude.toDoubleOrNull()
                         if (lat != null && lng != null) {
                             Marker(
                                 state = MarkerState(position = LatLng(lat, lng)),
-                                //title = "${loc.holiday} - ${loc.type}",
                                 title = loc.holiday,
                                 snippet = loc.type,
                                 // makes marker clickable
                                 onClick = {
-                                    //onMarkerClick(loc.id) // which location clicked
                                     false
                                 },
 
@@ -84,47 +113,25 @@ fun MapScreen(modifier: Modifier = Modifier, appViewModel: AppViewModel, onMarke
                             )
                         }
                     }
-
-                    /*Marker(
-                        state = MarkerState(position = location),
-                        title = "Selected Location"
-                    )*/
                 }
             }
 
             Column(modifier = Modifier.padding(16.dp)) {
-                OutlinedTextField(
-                    value = viewModel.cityName.value,
-                    onValueChange = { viewModel.cityName.value = it },
-                    label = { Text("Enter City") },
+                TypeFilterDropdown(
+                    allTypes = allTypes,
+                    selectedTypes = selectedTypes,
+                    onSelectionChange = { selectedTypes = it },
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
-                /*Button(
-                                    onClick = {
-                                        val geocoder = Geocoder(context)
-                                        val city = viewModel.cityName.value
-                                        val addresses = geocoder.getFromLocationName(city, 1)
-
-                                        if (!addresses.isNullOrEmpty()) {
-                                            val addr = addresses[0]
-                                            val newLatLng = LatLng(addr.latitude, addr.longitude)
-                                            viewModel.updateLocation(newLatLng)
-
-                                            coroutineScope.launch {
-                                                cameraPositionState.animate(
-                                                    CameraUpdateFactory.newLatLngZoom(newLatLng, 12f),
-                                                    1000
-                                                )
-                                            }
-                                        }
-                                    },
-                                    modifier = Modifier.fillMaxWidth()
-                                ) {
-                                    Text("Go")
-                                }*/
-
+                OutlinedTextField(
+                    value = viewModel.cityName.value,
+                    onValueChange = { viewModel.cityName.value = it },
+                    label = { Text(stringResource(R.string.enter_city)) },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(8.dp))
 
                 Button(
                     onClick = {
@@ -159,7 +166,7 @@ fun MapScreen(modifier: Modifier = Modifier, appViewModel: AppViewModel, onMarke
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Go")
+                    Text(stringResource(R.string.go))
                 }
 
 
@@ -167,6 +174,98 @@ fun MapScreen(modifier: Modifier = Modifier, appViewModel: AppViewModel, onMarke
 
             }
 
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TypeFilterDropdown(
+    allTypes: List<String>,
+    selectedTypes: Set<String>,
+    onSelectionChange: (Set<String>) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    val showAll = selectedTypes.isEmpty()
+    val displayText =
+        if (showAll) stringResource(R.string.all_types)
+        else selectedTypes.joinToString(", ")
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded },
+        modifier = modifier
+    ) {
+        // Anchor – NO label, read-only → avoids layered text
+        TextField(
+            value = displayText,
+            onValueChange = { /* read-only */ },
+            readOnly = true,
+            modifier = Modifier
+                .menuAnchor()      // 👈 VERY important, anchors the dropdown
+                .fillMaxWidth(),
+            trailingIcon = {
+                Icon(
+                    imageVector = Icons.Default.ArrowDropDown,
+                    contentDescription = stringResource(R.string.open_type_filter)
+                )
+            },
+            singleLine = true
+        )
+
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            // "All types" row
+            DropdownMenuItem(
+                text = {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Checkbox(
+                            checked = showAll,
+                            onCheckedChange = null // handled by parent onClick
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text(stringResource(R.string.all_types))
+                    }
+                },
+                onClick = {
+                    // Empty set means "no filter" → show everything
+                    onSelectionChange(emptySet())
+                }
+            )
+
+            // One row per type
+            allTypes.forEach { type ->
+                val isChecked = selectedTypes.contains(type)
+
+                DropdownMenuItem(
+                    text = {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Checkbox(
+                                checked = isChecked,
+                                onCheckedChange = null
+                            )
+                            Spacer(Modifier.width(8.dp))
+                            Text(type)
+                        }
+                    },
+                    onClick = {
+                        val newSelection =
+                            if (isChecked) selectedTypes - type
+                            else selectedTypes + type
+                        onSelectionChange(newSelection)
+                    }
+                )
+            }
         }
     }
 }

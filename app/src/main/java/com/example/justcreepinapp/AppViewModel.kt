@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import com.example.justcreepinapp.data.Location
 import com.example.justcreepinapp.data.LocationDatabaseHelper
 
+
 class AppViewModel(application: Application) : AndroidViewModel(application) {
     val holidays = listOf(
         "Halloween",
@@ -14,7 +15,6 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     private val dbHelper = LocationDatabaseHelper(application)
     var locations = mutableStateOf<List<Location>>(emptyList())
         private set
-    var skin = mutableStateOf("")
     var holiday = mutableStateOf("")
     var type = mutableStateOf("")
     var latitude = mutableStateOf("")
@@ -34,7 +34,6 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         }
 
         // Validate latitude
-        //val lat = latitude.value
         if (latitude.value.isBlank()) {
             latitudeInvalid = "Latitude cannot be empty"
         } else if (latitude.value.toDoubleOrNull() == null) {
@@ -42,7 +41,6 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         }
 
         // Validate longitude
-        //val lon = longitude.value
         if (longitude.value.isBlank()) {
             longitudeInvalid = "Longitude cannot be empty"
         } else if (longitude.value.toDoubleOrNull() == null) {
@@ -63,22 +61,26 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         return detailValidationState.value is ValidationDetails.Valid
     }
 
+    // Initialize with first holiday
     init {
         loadLocations(holidays.first())
     }
 
+    // Load locations for selected holiday
     fun loadLocations(selectedHoliday: String) {
         holiday.value = selectedHoliday
         val allLocations = dbHelper.getAllLocations()
         locations.value = allLocations.filter { it.holiday == selectedHoliday }
     }
 
+    // Reset field values
     fun resetFieldValues() {
         type.value = ""
         latitude.value = ""
         longitude.value = ""
     }
 
+    // Load location field values
     fun loadLocationFieldValues(id: Int) {
         val spot = locations.value.firstOrNull { it.id == id }?: return
         holiday.value = spot.holiday
@@ -87,8 +89,8 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         longitude.value = spot.longitude
     }
 
+    // Add location
     fun addLocation(onDone: () -> Unit = {}){
-        //if (holiday.value.isBlank()) return
 
         if (!validateDetails()) return
 
@@ -104,11 +106,11 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         onDone()
     }
 
+    // Update location
     fun updateLocation(
         id: Int,
         onDone: () -> Unit = {}
     ) {
-        //if (holiday.value.isBlank()) return
         if (!validateDetails()) return
 
         dbHelper.updateLocation(
@@ -123,6 +125,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         onDone()
     }
 
+    // Delete location
     fun deleteLocation(
         id: Int,
         onDone: () -> Unit = {}

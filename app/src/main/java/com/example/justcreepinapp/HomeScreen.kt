@@ -14,11 +14,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
@@ -32,8 +30,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
@@ -42,24 +38,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.justcreepinapp.ui.theme.AppTheme
+import com.example.justcreepinapp.ui.theme.SoftPink
 
+// Home Screen
 @Composable
 fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
-    // Gradient background matching splash screen
-    val gradient = Brush.linearGradient(
-        colors = listOf(
-            Color(0xFF6650a4), // Purple40 - deep purple
-            Color(0xFFD0BCFF), // Purple80 - light purple
-            Color(0xFFEFB8C8)  // Pink80 - soft pink
-        ),
-        start = Offset(0f, 0f),
-        end = Offset(1000f, 1000f)
-    )
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(brush = gradient)
+            .background(brush = AppTheme.gradient)
     ) {
         Column(
             modifier = Modifier
@@ -82,7 +71,7 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
                 ) {
                     Image(
                         painter = painterResource(R.drawable.logo2),
-                        contentDescription = "App Logo",
+                        contentDescription = stringResource(R.string.app_logo),
                         modifier = Modifier.size(100.dp)
                     )
                 }
@@ -92,12 +81,15 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
                     onClick = { /* TODO: Handle user profile click */ },
                     modifier = Modifier
                         .size(60.dp)
-                        .background(Color.White.copy(alpha = 0.25f), CircleShape)
+                        .background(
+                            MaterialTheme.colorScheme.primary.copy(alpha = 0.25f),
+                            CircleShape
+                        )
                 ) {
                     Icon(
                         imageVector = Icons.Default.AccountCircle,
-                        contentDescription = "User Profile",
-                        tint = Color.White,
+                        contentDescription = stringResource(R.string.user_profile),
+                        tint = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.size(36.dp)
                     )
                 }
@@ -110,20 +102,20 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
             ) {
 
                 Text(
-                    text = "Just Creepin'",
+                    text = stringResource(R.string.just_creepin),
                     fontSize = 42.sp,
                     fontWeight = FontWeight.Black,
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onBackground,
                     letterSpacing = 1.sp
                 )
 
                 Spacer(Modifier.height(8.dp))
 
                 Text(
-                    text = "Discover Holiday Magic",
+                    text = stringResource(R.string.discover_holiday_magic),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Medium,
-                    color = Color.White.copy(alpha = 0.95f),
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.95f),
                     letterSpacing = 0.5.sp
                 )
             }
@@ -139,9 +131,12 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
                 // Halloween Card Button
                 HolidayCard(
                     title = stringResource(R.string.button_halloween),
-                    subtitle = "Find candy & spooky decorations",
+                    subtitle = stringResource(R.string.find_candy_spooky_decorations),
                     emoji = "🎃",
-                    backgroundColor = Color(0xFF6650a4),
+                    //highlightColor = DeepPurple,
+                    //backgroundColor = DeepPurple,
+                    //backgroundColor = SoftPink,
+                    backgroundColor = MaterialTheme.colorScheme.primary,
                     onClick = {
                         viewModel.loadLocations("Halloween")
                         onHolidayClick()
@@ -153,9 +148,9 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
                 // Christmas Card Button
                 HolidayCard(
                     title = stringResource(R.string.button_christmas),
-                    subtitle = "Explore festive lights & displays",
+                    subtitle = stringResource(R.string.explore_festive_lights_displays),
                     emoji = "🎄",
-                    backgroundColor = Color(0xFFEFB8C8),
+                    backgroundColor = SoftPink,
                     onClick = {
                         viewModel.loadLocations("Christmas")
                         onHolidayClick()
@@ -174,21 +169,21 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
                 ) {
                     FeatureItem(
                         icon = Icons.Default.Place,
-                        text = "Map View"
+                        text = stringResource(R.string.map_view)
                     )
                     FeatureItem(
                         icon = Icons.Default.Share,
-                        text = "Community"
+                        text = stringResource(R.string.community)
                     )
                 }
 
                 Spacer(Modifier.height(16.dp))
 
                 Text(
-                    text = "Share & discover the best holiday spots",
+                    text = stringResource(R.string.share_discover_the_best_holiday_spots),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
-                    color = Color.White.copy(alpha = 0.85f),
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.85f),
                     textAlign = TextAlign.Center
                 )
             }
@@ -196,6 +191,7 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
     }
 }
 
+// Holiday Card
 @Composable
 fun HolidayCard(
     title: String,
@@ -211,7 +207,7 @@ fun HolidayCard(
             .padding(horizontal = 16.dp),
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White.copy(alpha = 0.95f)
+            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f)
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 12.dp)
     ) {
@@ -256,6 +252,7 @@ fun HolidayCard(
     }
 }
 
+// Feature Item
 @Composable
 fun FeatureItem(icon: ImageVector, text: String) {
     Column(
@@ -264,13 +261,13 @@ fun FeatureItem(icon: ImageVector, text: String) {
         Box(
             modifier = Modifier
                 .size(50.dp)
-                .background(Color.White.copy(alpha = 0.25f), CircleShape),
+                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.25f), CircleShape),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = text,
-                tint = Color.White,
+                tint = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.size(28.dp)
             )
         }
@@ -279,7 +276,7 @@ fun FeatureItem(icon: ImageVector, text: String) {
             text = text,
             fontSize = 12.sp,
             fontWeight = FontWeight.Medium,
-            color = Color.White.copy(alpha = 0.9f)
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.9f)
         )
     }
 }

@@ -1,5 +1,7 @@
 package com.example.justcreepinapp.data
 
+// Location class
+
 data class Location (
     val id: Int = 0,
     val holiday: String,

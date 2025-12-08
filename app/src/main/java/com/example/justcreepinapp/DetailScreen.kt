@@ -18,10 +18,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -43,20 +42,19 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import com.example.justcreepinapp.ui.theme.AppTheme
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+// Detail Screen
 @Composable
 fun DetailScreen(
     viewModel: AppViewModel,
@@ -75,10 +73,6 @@ fun DetailScreen(
     val fusedLocationClient = remember {
         LocationServices.getFusedLocationProviderClient(context)
     }
-    /*val permissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->*/
-
 
     // Location Permission
     var hasLocationPermission by remember { mutableStateOf(false) }
@@ -92,6 +86,7 @@ fun DetailScreen(
     var isSearching by remember { mutableStateOf(false) }
     var showResults by remember { mutableStateOf(false) }
 
+    // Load location field values
     LaunchedEffect(locationId) {
         if (editLocation) {
             locationId?.let { viewModel.loadLocationFieldValues(it) }
@@ -116,35 +111,22 @@ fun DetailScreen(
         }
     }
 
+    // Get current location
     LaunchedEffect(hasLocationPermission, editLocation) {
         if (hasLocationPermission && !editLocation) {
             fusedLocationClient.lastLocation.addOnSuccessListener { location ->
                 if (location != null) {
-                //viewModel.latitude.value = "${location.latitude},${location.longitude}"
                     viewModel.latitude.value = "${location.latitude}"
                     viewModel.longitude.value = "${location.longitude}"
-                    //viewModel.latitude.value = location.latitude.toString()
-                    //viewModel.longitude.value = location.longitude.toString()
                 }
             }
         }
     }
 
-    // Gradient background matching home screen
-    val gradient = Brush.linearGradient(
-        colors = listOf(
-            Color(0xFF6650a4),
-            Color(0xFFD0BCFF),
-            Color(0xFFEFB8C8)
-        ),
-        start = Offset(0f, 0f),
-        end = Offset(1000f, 1000f)
-    )
-
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(brush = gradient)
+            .background(brush = AppTheme.gradient)
     ) {
         LazyColumn(
             modifier = Modifier
@@ -162,20 +144,22 @@ fun DetailScreen(
                     IconButton(
                         onClick = onBackClick,
                         modifier = Modifier
-                            .background(Color.White.copy(alpha = 0.3f), RoundedCornerShape(12.dp))
+                            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.25f), RoundedCornerShape(12.dp))
                     ) {
                         Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back",
-                            tint = Color.White
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.back),
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
 
                     Text(
-                        text = if (editLocation) "Edit Location" else "Add Location",
+                        text = if (editLocation) stringResource(R.string.edit_location) else stringResource(
+                            R.string.add_location
+                        ),
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.padding(start = 16.dp)
                     )
                 }
@@ -187,7 +171,7 @@ fun DetailScreen(
                     text = "Holiday: ${viewModel.holiday.value}",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
 
@@ -195,18 +179,37 @@ fun DetailScreen(
                 OutlinedTextField(
                     value = viewModel.type.value,
                     onValueChange = { viewModel.type.value = it },
-                    label = { Text("Decoration Type") },
-                    placeholder = { Text("e.g., Giant Inflatable, Light Display") },
+                    label = { Text(stringResource(R.string.decoration_type)) },
+                    placeholder = { Text(stringResource(R.string.e_g_giant_inflatable_light_display)) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
+
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedContainerColor = Color.White.copy(alpha = 0.95f),
-                        unfocusedContainerColor = Color.White.copy(alpha = 0.95f),
-                        focusedBorderColor = Color(0xFF6650a4),
-                        unfocusedBorderColor = Color.White.copy(alpha = 0.5f),
-                        focusedLabelColor = Color(0xFF6650a4),
-                        unfocusedLabelColor = Color(0xFF625b71)
+                        // Field background
+                        focusedContainerColor = MaterialTheme.colorScheme.surface,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+
+                        // Border
+                        //focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        focusedBorderColor = MaterialTheme.colorScheme.tertiary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+
+                        // Label (this is what fixes your contrast issue)
+                        //focusedLabelColor = MaterialTheme.colorScheme.onBackground,
+                        focusedLabelColor = MaterialTheme.colorScheme.primary,
+                        //unfocusedLabelColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
+                        unfocusedLabelColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
+
+
+                        // Text / cursor / placeholder
+                        cursorColor = MaterialTheme.colorScheme.primary,
+                        focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        focusedPlaceholderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                        unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                     )
+
+
                 )
                 if (typeInvalidText != null) {
                     Text(
@@ -223,8 +226,8 @@ fun DetailScreen(
                         searchQuery = it
                         showResults = it.isNotEmpty()
                     },
-                    label = { Text("Search Address") },
-                    placeholder = { Text("123 Main St, City, State") },
+                    label = { Text(stringResource(R.string.search_address)) },
+                    placeholder = { Text(stringResource(R.string._123_main_st_city_state)) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
                     trailingIcon = {
@@ -232,7 +235,7 @@ fun DetailScreen(
                             CircularProgressIndicator(
                                 modifier = Modifier.padding(12.dp),
                                 strokeWidth = 2.dp,
-                                color = Color(0xFF6650a4)
+                                color = MaterialTheme.colorScheme.primary
                             )
                         } else {
                             IconButton(onClick = {
@@ -257,25 +260,26 @@ fun DetailScreen(
                             }) {
                                 Icon(
                                     imageVector = Icons.Default.Search,
-                                    contentDescription = "Search",
-                                    tint = Color(0xFF6650a4)
+                                    contentDescription = stringResource(R.string.search),
+                                    tint = MaterialTheme.colorScheme.primary
                                 )
                             }
                         }
                     },
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedContainerColor = Color.White.copy(alpha = 0.95f),
-                        unfocusedContainerColor = Color.White.copy(alpha = 0.95f),
-                        focusedBorderColor = Color(0xFF6650a4),
-                        unfocusedBorderColor = Color.White.copy(alpha = 0.5f),
-                        focusedLabelColor = Color(0xFF6650a4),
-                        unfocusedLabelColor = Color(0xFF625b71)
+                        focusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
+                        focusedLabelColor = MaterialTheme.colorScheme.primary,
+                        unfocusedLabelColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.7f)
                     )
                 )
 
                 Spacer(Modifier.height(8.dp))
 
                 Spacer(Modifier.height(12.dp))
+                // Latitude Field
                 OutlinedTextField(
                     value = viewModel.latitude.value,
                     onValueChange = {viewModel.latitude.value=it},
@@ -288,6 +292,7 @@ fun DetailScreen(
                         color = MaterialTheme.colorScheme.error)
                 }
                 Spacer(Modifier.height(12.dp))
+                // Longitude Field
                 OutlinedTextField(
                     value = viewModel.longitude.value,
                     onValueChange = {viewModel.longitude.value=it},
@@ -300,13 +305,6 @@ fun DetailScreen(
                         color = MaterialTheme.colorScheme.error)
                 }
 
-                /*Spacer(Modifier.height(8.dp))
-                if (typeInvalidText != null) {
-                    Text(
-                        text = typeInvalidText,
-                        color = MaterialTheme.colorScheme.error)
-                }*/
-
                 Spacer(Modifier.height(8.dp))
 
                 // Search Results
@@ -317,7 +315,7 @@ fun DetailScreen(
                             .heightIn(max = 300.dp),
                         shape = RoundedCornerShape(16.dp),
                         colors = CardDefaults.cardColors(
-                            containerColor = Color.White.copy(alpha = 0.95f)
+                            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f)
                         ),
                         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
                     ) {
@@ -335,13 +333,14 @@ fun DetailScreen(
                                         .fillMaxWidth()
                                         .clickable {
                                             viewModel.latitude.value = addressLine
-                                            viewModel.longitude.value = "${address.latitude},${address.longitude}"
+                                            viewModel.longitude.value =
+                                                "${address.latitude},${address.longitude}"
                                             searchQuery = addressLine
                                             showResults = false
                                         }
                                         .padding(12.dp),
                                     fontSize = 14.sp,
-                                    color = Color(0xFF625b71)
+                                    color = MaterialTheme.colorScheme.onSurface
                                 )
                             }
                         }
@@ -355,21 +354,21 @@ fun DetailScreen(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(16.dp),
                         colors = CardDefaults.cardColors(
-                            containerColor = Color(0xFF6650a4).copy(alpha = 0.2f)
+                            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.2f)
                         )
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(
-                                text = "Selected Address:",
+                                text = stringResource(R.string.selected_address),
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color.White
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                             Spacer(Modifier.height(4.dp))
                             Text(
                                 text = viewModel.latitude.value,
                                 fontSize = 14.sp,
-                                color = Color.White
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
                     }
@@ -383,7 +382,7 @@ fun DetailScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(
-                            color = Color.White.copy(alpha = 0.3f),
+                            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.3f),
                             shape = RoundedCornerShape(20.dp)
                         )
                         .padding(8.dp)
@@ -404,17 +403,17 @@ fun DetailScreen(
                             .fillMaxWidth()
                             .height(56.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.White.copy(alpha = 0.95f)
+                            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f)
                         ),
                         shape = RoundedCornerShape(16.dp),
                         elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp),
                         enabled = viewModel.latitude.value.isNotEmpty() && viewModel.type.value.isNotEmpty()
                     ) {
                         Text(
-                            text = if (editLocation) "Update Location" else "Add Location",
+                            text = if (editLocation) stringResource(R.string.update_location) else stringResource(R.string.button_add_location),
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF6650a4)
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 }
@@ -432,16 +431,16 @@ fun DetailScreen(
                             .fillMaxWidth()
                             .height(56.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFFEF5350).copy(alpha = 0.9f)
+                            containerColor = MaterialTheme.colorScheme.primary
                         ),
                         shape = RoundedCornerShape(16.dp),
                         elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp)
                     ) {
                         Text(
-                            text = "Delete Location",
+                            text = stringResource(R.string.delete_location),
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color.White
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 }

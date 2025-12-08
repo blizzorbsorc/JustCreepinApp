@@ -14,8 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -32,15 +31,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.justcreepinapp.data.Location
+import com.example.justcreepinapp.ui.theme.AppTheme
 
 @Composable
 fun ListScreen(
@@ -50,25 +47,14 @@ fun ListScreen(
     onLocationClick: (Location) -> Unit
 ) {
     val locations = viewModel.locations.value
-    val context = LocalContext.current
+    LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
-    val coroutineScope = rememberCoroutineScope()
-
-    // Gradient background matching home screen
-    val gradient = Brush.linearGradient(
-        colors = listOf(
-            Color(0xFF6650a4), // Purple40 - deep purple
-            Color(0xFFD0BCFF), // Purple80 - light purple
-            Color(0xFFEFB8C8)  // Pink80 - soft pink
-        ),
-        start = Offset(0f, 0f),
-        end = Offset(1000f, 1000f)
-    )
+    rememberCoroutineScope()
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(brush = gradient)
+            .background(brush = AppTheme.gradient)
     ) {
         Column(
             modifier = Modifier
@@ -87,21 +73,23 @@ fun ListScreen(
                 IconButton(
                     onClick = onBackClick,
                     modifier = Modifier
-                        .background(Color.White.copy(alpha = 0.3f), RoundedCornerShape(12.dp))
+                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.25f), RoundedCornerShape(12.dp))
                 ) {
                     Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Back",
-                        tint = Color.White
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = stringResource(R.string.back),
+                        tint = MaterialTheme.colorScheme.primary
                     )
                 }
 
                 Text(
-                    text = "${viewModel.holiday.value} Locations",
+                    text = "${viewModel.holiday.value} ${stringResource(R.string.locations_title)}",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    modifier = Modifier.weight(1f).padding(horizontal = 16.dp)
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(horizontal = 16.dp)
                 )
             }
 
@@ -114,7 +102,7 @@ fun ListScreen(
                     .height(56.dp),
                 onClick = onAddLocationClick,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White.copy(alpha = 0.95f)
+                    containerColor = MaterialTheme.colorScheme.primary
                 ),
                 shape = RoundedCornerShape(16.dp),
                 elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp)
@@ -123,7 +111,7 @@ fun ListScreen(
                     text = stringResource(R.string.button_add_location),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF6650a4)
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             }
 
@@ -139,10 +127,10 @@ fun ListScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "No locations added yet.\nTap 'Add Location' to get started!",
+                        text = stringResource(R.string.no_locations_added_yet_tap_add_location_to_get_started),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
-                        color = Color.White.copy(alpha = 0.9f),
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.9f),
                         textAlign = androidx.compose.ui.text.style.TextAlign.Center
                     )
                 }
@@ -158,7 +146,7 @@ fun ListScreen(
                             elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
                             shape = RoundedCornerShape(16.dp),
                             colors = CardDefaults.cardColors(
-                                containerColor = Color.White.copy(alpha = 0.95f)
+                                containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f)
                             )
                         ) {
                             Row(
@@ -170,13 +158,13 @@ fun ListScreen(
                                         text = location.type,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 18.sp,
-                                        color = Color(0xFF6650a4)
+                                        color = MaterialTheme.colorScheme.primary
                                     )
                                     Spacer(Modifier.height(4.dp))
                                     Text(
                                         text = "${location.latitude}, ${location.longitude}",
                                         fontSize = 14.sp,
-                                        color = Color(0xFF625b71)
+                                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                                     )
                                 }
                                 IconButton(onClick = {
@@ -184,8 +172,8 @@ fun ListScreen(
                                 }) {
                                     Icon(
                                         imageVector = Icons.Default.Edit,
-                                        contentDescription = "Edit Location",
-                                        tint = Color(0xFF6650a4)
+                                        contentDescription = stringResource(R.string.edit_location),
+                                        tint = MaterialTheme.colorScheme.primary
                                     )
                                 }
                             }
