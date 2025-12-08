@@ -36,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,6 +55,7 @@ data class ChatMessage(
 @Composable
 fun ChatScreen(onBackClick: () -> Unit) {
     var messageText by remember { mutableStateOf("") }
+    val youText = stringResource(R.string.chat_you) // Get string outside onClick
     var messages by remember {
         mutableStateOf(listOf(
             ChatMessage(
@@ -123,7 +125,7 @@ fun ChatScreen(onBackClick: () -> Unit) {
                 ) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Back",
+                        contentDescription = stringResource(R.string.back),
                         tint = Color.White
                     )
                 }
@@ -132,13 +134,13 @@ fun ChatScreen(onBackClick: () -> Unit) {
                     modifier = Modifier.weight(1f).padding(horizontal = 16.dp)
                 ) {
                     Text(
-                        text = "Community Chat",
+                        text = stringResource(R.string.chat_title),
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
                     )
                     Text(
-                        text = "${messages.size} messages",
+                        text = stringResource(R.string.chat_messages_count, messages.size),
                         fontSize = 12.sp,
                         color = Color.White.copy(alpha = 0.8f)
                     )
@@ -174,7 +176,7 @@ fun ChatScreen(onBackClick: () -> Unit) {
                     value = messageText,
                     onValueChange = { messageText = it },
                     modifier = Modifier.weight(1f),
-                    placeholder = { Text("Type a message...") },
+                    placeholder = { Text(stringResource(R.string.chat_type_message)) },
                     shape = RoundedCornerShape(24.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedContainerColor = Color.White,
@@ -190,7 +192,7 @@ fun ChatScreen(onBackClick: () -> Unit) {
                         if (messageText.isNotBlank()) {
                             messages = messages + ChatMessage(
                                 id = System.currentTimeMillis().toString(),
-                                username = "You",
+                                username = youText,
                                 message = messageText,
                                 timestamp = System.currentTimeMillis(),
                                 isCurrentUser = true
@@ -204,7 +206,7 @@ fun ChatScreen(onBackClick: () -> Unit) {
                 ) {
                     Icon(
                         imageVector = Icons.Default.Send,
-                        contentDescription = "Send",
+                        contentDescription = stringResource(R.string.send),
                         tint = Color.White
                     )
                 }

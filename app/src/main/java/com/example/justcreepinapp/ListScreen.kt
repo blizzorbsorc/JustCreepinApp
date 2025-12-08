@@ -91,13 +91,13 @@ fun ListScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Back",
+                        contentDescription = stringResource(R.string.back),
                         tint = Color.White
                     )
                 }
 
                 Text(
-                    text = "${viewModel.holiday.value} Locations",
+                    text = "${viewModel.holiday.value} ${stringResource(R.string.locations_title).replace("%s", "")}",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
@@ -139,7 +139,7 @@ fun ListScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "No locations added yet.\nTap 'Add Location' to get started!",
+                        text = stringResource(R.string.empty_locations),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color.White.copy(alpha = 0.9f),
@@ -184,7 +184,7 @@ fun ListScreen(
                                 }) {
                                     Icon(
                                         imageVector = Icons.Default.Edit,
-                                        contentDescription = "Edit Location",
+                                        contentDescription = stringResource(R.string.edit_location),
                                         tint = Color(0xFF6650a4)
                                     )
                                 }

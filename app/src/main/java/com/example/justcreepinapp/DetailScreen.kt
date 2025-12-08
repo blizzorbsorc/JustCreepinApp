@@ -1,11 +1,7 @@
 package com.example.justcreepinapp
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -51,8 +47,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat
-import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -66,26 +60,6 @@ fun DetailScreen(
     val editLocation = locationId != null
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
-    val validationState = viewModel.detailValidationState.value
-    val typeInvalidText = (validationState as? ValidationDetails.Invalid)?.typeInvalid
-    val latitudeInvalidText = (validationState as? ValidationDetails.Invalid)?.latitudeInvalid
-    val longitudeInvalidText = (validationState as? ValidationDetails.Invalid)?.longitudeInvalid
-
-    // Location Services
-    val fusedLocationClient = remember {
-        LocationServices.getFusedLocationProviderClient(context)
-    }
-    /*val permissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->*/
-
-
-    // Location Permission
-    var hasLocationPermission by remember { mutableStateOf(false) }
-
-    var permissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean -> hasLocationPermission = isGranted}
 
     var searchQuery by remember { mutableStateOf("") }
     var searchResults by remember { mutableStateOf<List<Address>>(emptyList()) }
@@ -97,36 +71,6 @@ fun DetailScreen(
             locationId?.let { viewModel.loadLocationFieldValues(it) }
         } else {
             viewModel.resetFieldValues()
-        }
-    }
-
-    // Location Permission
-    LaunchedEffect(editLocation) {
-        if (!editLocation) {
-            val granted = ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-
-            if (granted) {
-                hasLocationPermission = true
-            } else {
-                permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-            }
-        }
-    }
-
-    LaunchedEffect(hasLocationPermission, editLocation) {
-        if (hasLocationPermission && !editLocation) {
-            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                if (location != null) {
-                //viewModel.latitude.value = "${location.latitude},${location.longitude}"
-                    viewModel.latitude.value = "${location.latitude}"
-                    viewModel.longitude.value = "${location.longitude}"
-                    //viewModel.latitude.value = location.latitude.toString()
-                    //viewModel.longitude.value = location.longitude.toString()
-                }
-            }
         }
     }
 
@@ -172,7 +116,7 @@ fun DetailScreen(
                     }
 
                     Text(
-                        text = if (editLocation) "Edit Location" else "Add Location",
+                        text = if (editLocation) stringResource(R.string.detail_edit_title) else stringResource(R.string.detail_add_title),
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White,
@@ -184,7 +128,7 @@ fun DetailScreen(
 
                 // Holiday Display
                 Text(
-                    text = "Holiday: ${viewModel.holiday.value}",
+                    text = stringResource(R.string.label_holiday, viewModel.holiday.value),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
@@ -195,8 +139,8 @@ fun DetailScreen(
                 OutlinedTextField(
                     value = viewModel.type.value,
                     onValueChange = { viewModel.type.value = it },
-                    label = { Text("Decoration Type") },
-                    placeholder = { Text("e.g., Giant Inflatable, Light Display") },
+                    label = { Text(stringResource(R.string.label_decoration_type)) },
+                    placeholder = { Text(stringResource(R.string.placeholder_decoration_type)) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
                     colors = OutlinedTextFieldDefaults.colors(
@@ -208,11 +152,6 @@ fun DetailScreen(
                         unfocusedLabelColor = Color(0xFF625b71)
                     )
                 )
-                if (typeInvalidText != null) {
-                    Text(
-                        text = typeInvalidText,
-                        color = MaterialTheme.colorScheme.error)
-                }
 
                 Spacer(Modifier.height(16.dp))
 
@@ -223,8 +162,8 @@ fun DetailScreen(
                         searchQuery = it
                         showResults = it.isNotEmpty()
                     },
-                    label = { Text("Search Address") },
-                    placeholder = { Text("123 Main St, City, State") },
+                    label = { Text(stringResource(R.string.label_search_address)) },
+                    placeholder = { Text(stringResource(R.string.placeholder_address)) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
                     trailingIcon = {
@@ -257,7 +196,7 @@ fun DetailScreen(
                             }) {
                                 Icon(
                                     imageVector = Icons.Default.Search,
-                                    contentDescription = "Search",
+                                    contentDescription = stringResource(R.string.search),
                                     tint = Color(0xFF6650a4)
                                 )
                             }
@@ -272,40 +211,6 @@ fun DetailScreen(
                         unfocusedLabelColor = Color(0xFF625b71)
                     )
                 )
-
-                Spacer(Modifier.height(8.dp))
-
-                Spacer(Modifier.height(12.dp))
-                OutlinedTextField(
-                    value = viewModel.latitude.value,
-                    onValueChange = {viewModel.latitude.value=it},
-                    label = {Text(stringResource(R.string.text_latitude))},
-                    modifier = Modifier.fillMaxWidth()
-                )
-                if (latitudeInvalidText != null) {
-                    Text(
-                        text = latitudeInvalidText,
-                        color = MaterialTheme.colorScheme.error)
-                }
-                Spacer(Modifier.height(12.dp))
-                OutlinedTextField(
-                    value = viewModel.longitude.value,
-                    onValueChange = {viewModel.longitude.value=it},
-                    label = {Text(stringResource(R.string.text_longitude))},
-                    modifier = Modifier.fillMaxWidth(),
-                )
-                if (longitudeInvalidText != null) {
-                    Text(
-                        text = longitudeInvalidText,
-                        color = MaterialTheme.colorScheme.error)
-                }
-
-                /*Spacer(Modifier.height(8.dp))
-                if (typeInvalidText != null) {
-                    Text(
-                        text = typeInvalidText,
-                        color = MaterialTheme.colorScheme.error)
-                }*/
 
                 Spacer(Modifier.height(8.dp))
 
@@ -360,7 +265,7 @@ fun DetailScreen(
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(
-                                text = "Selected Address:",
+                                text = stringResource(R.string.label_selected_address),
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
@@ -411,7 +316,7 @@ fun DetailScreen(
                         enabled = viewModel.latitude.value.isNotEmpty() && viewModel.type.value.isNotEmpty()
                     ) {
                         Text(
-                            text = if (editLocation) "Update Location" else "Add Location",
+                            text = if (editLocation) stringResource(R.string.button_update_location) else stringResource(R.string.button_add_location_action),
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color(0xFF6650a4)
@@ -438,7 +343,7 @@ fun DetailScreen(
                         elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp)
                     ) {
                         Text(
-                            text = "Delete Location",
+                            text = stringResource(R.string.button_delete_location),
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color.White

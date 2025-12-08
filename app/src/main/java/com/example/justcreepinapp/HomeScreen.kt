@@ -83,7 +83,7 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit, onCommunityC
                 ) {
                     Image(
                         painter = painterResource(R.drawable.logo2),
-                        contentDescription = "App Logo",
+                        contentDescription = stringResource(R.string.app_logo),
                         modifier = Modifier.size(100.dp)
                     )
                 }
@@ -97,7 +97,7 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit, onCommunityC
                 ) {
                     Icon(
                         imageVector = Icons.Default.AccountCircle,
-                        contentDescription = "User Profile",
+                        contentDescription = stringResource(R.string.user_profile),
                         tint = Color.White,
                         modifier = Modifier.size(36.dp)
                     )
@@ -175,11 +175,11 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit, onCommunityC
                 ) {
                     FeatureItem(
                         icon = Icons.Default.Place,
-                        text = "Map View"
+                        text = stringResource(R.string.feature_map_view)
                     )
                     FeatureItem(
                         icon = Icons.Default.Share,
-                        text = "Community",
+                        text = stringResource(R.string.feature_community),
                         onClick = onCommunityClick
                     )
                 }
@@ -187,7 +187,7 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit, onCommunityC
                 Spacer(Modifier.height(16.dp))
 
                 Text(
-                    text = "Share & discover the best holiday spots",
+                    text = stringResource(R.string.home_tagline),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
                     color = Color.White.copy(alpha = 0.85f),

@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun ProfileScreen(onBackClick: () -> Unit) {
@@ -89,7 +90,7 @@ fun ProfileScreen(onBackClick: () -> Unit) {
                     }
 
                     Text(
-                        text = "Your Profile",
+                        text = stringResource(R.string.profile_title),
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White,
@@ -112,7 +113,7 @@ fun ProfileScreen(onBackClick: () -> Unit) {
                     ) {
                         Icon(
                             imageVector = Icons.Default.AccountCircle,
-                            contentDescription = "Profile Picture",
+                            contentDescription = stringResource(R.string.profile_picture),
                             modifier = Modifier.size(100.dp),
                             tint = Color(0xFF6650a4)
                         )
@@ -121,7 +122,7 @@ fun ProfileScreen(onBackClick: () -> Unit) {
                     Spacer(Modifier.height(8.dp))
 
                     Text(
-                        text = "Tap to change photo",
+                        text = stringResource(R.string.profile_change_photo),
                         fontSize = 12.sp,
                         color = Color.White.copy(alpha = 0.7f)
                     )
@@ -131,7 +132,7 @@ fun ProfileScreen(onBackClick: () -> Unit) {
 
                 // Full Name Field
                 Text(
-                    text = "Full Name",
+                    text = stringResource(R.string.profile_full_name),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
@@ -140,7 +141,7 @@ fun ProfileScreen(onBackClick: () -> Unit) {
                 OutlinedTextField(
                     value = fullName,
                     onValueChange = { fullName = it },
-                    placeholder = { Text("Enter your full name") },
+                    placeholder = { Text(stringResource(R.string.placeholder_full_name)) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
                     colors = OutlinedTextFieldDefaults.colors(
@@ -157,7 +158,7 @@ fun ProfileScreen(onBackClick: () -> Unit) {
 
                 // Username Field
                 Text(
-                    text = "Username",
+                    text = stringResource(R.string.profile_username),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
@@ -166,7 +167,7 @@ fun ProfileScreen(onBackClick: () -> Unit) {
                 OutlinedTextField(
                     value = username,
                     onValueChange = { username = it },
-                    placeholder = { Text("@username") },
+                    placeholder = { Text(stringResource(R.string.placeholder_username)) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
                     colors = OutlinedTextFieldDefaults.colors(
@@ -183,7 +184,7 @@ fun ProfileScreen(onBackClick: () -> Unit) {
 
                 // Email Field
                 Text(
-                    text = "Email",
+                    text = stringResource(R.string.profile_email),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
@@ -192,7 +193,7 @@ fun ProfileScreen(onBackClick: () -> Unit) {
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
-                    placeholder = { Text("your.email@example.com") },
+                    placeholder = { Text(stringResource(R.string.placeholder_email)) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
                     colors = OutlinedTextFieldDefaults.colors(
@@ -209,7 +210,7 @@ fun ProfileScreen(onBackClick: () -> Unit) {
 
                 // Location Field
                 Text(
-                    text = "Location",
+                    text = stringResource(R.string.profile_location),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
@@ -218,7 +219,7 @@ fun ProfileScreen(onBackClick: () -> Unit) {
                 OutlinedTextField(
                     value = location,
                     onValueChange = { location = it },
-                    placeholder = { Text("City, State") },
+                    placeholder = { Text(stringResource(R.string.placeholder_location)) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
                     colors = OutlinedTextFieldDefaults.colors(
@@ -235,7 +236,7 @@ fun ProfileScreen(onBackClick: () -> Unit) {
 
                 // Bio Field
                 Text(
-                    text = "About You",
+                    text = stringResource(R.string.profile_about),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
@@ -244,7 +245,7 @@ fun ProfileScreen(onBackClick: () -> Unit) {
                 OutlinedTextField(
                     value = bio,
                     onValueChange = { bio = it },
-                    placeholder = { Text("Tell us about yourself...") },
+                    placeholder = { Text(stringResource(R.string.placeholder_bio)) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
                     minLines = 4,
@@ -286,7 +287,7 @@ fun ProfileScreen(onBackClick: () -> Unit) {
                         elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp)
                     ) {
                         Text(
-                            text = "Save Profile",
+                            text = stringResource(R.string.profile_save),
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color(0xFF6650a4)
