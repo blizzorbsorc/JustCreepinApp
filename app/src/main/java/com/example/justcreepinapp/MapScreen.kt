@@ -29,7 +29,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -61,9 +60,8 @@ fun MapScreen(modifier: Modifier = Modifier, appViewModel: AppViewModel, onMarke
     }
 
     // Multiselect filter
-    var filterExpanded by remember { mutableStateOf(false) }
     var selectedTypes by remember { mutableStateOf<Set<String>>(emptySet()) }
-    val allSelected = selectedTypes.isEmpty()
+    selectedTypes.isEmpty()
 
     // Filter locations based on selected types
     val filteredLocations = remember(locations, selectedTypes) {

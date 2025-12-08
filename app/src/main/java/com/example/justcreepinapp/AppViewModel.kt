@@ -15,7 +15,6 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     private val dbHelper = LocationDatabaseHelper(application)
     var locations = mutableStateOf<List<Location>>(emptyList())
         private set
-    var skin = mutableStateOf("")
     var holiday = mutableStateOf("")
     var type = mutableStateOf("")
     var latitude = mutableStateOf("")

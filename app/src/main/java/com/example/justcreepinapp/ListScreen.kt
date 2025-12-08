@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -51,12 +50,12 @@ fun ListScreen(
     onLocationClick: (Location) -> Unit
 ) {
     val locations = viewModel.locations.value
-    val context = LocalContext.current
+    LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
-    val coroutineScope = rememberCoroutineScope()
+    rememberCoroutineScope()
 
     // Gradient background matching home screen
-    val gradient = Brush.linearGradient(
+    Brush.linearGradient(
         colors = listOf(
             Color(0xFF6650a4), // Purple40 - deep purple
             Color(0xFFD0BCFF), // Purple80 - light purple

@@ -14,11 +14,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
@@ -43,14 +41,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.justcreepinapp.ui.theme.AppTheme
-import com.example.justcreepinapp.ui.theme.DeepPurple
 import com.example.justcreepinapp.ui.theme.SoftPink
 
 // Home Screen
 @Composable
 fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
     // Gradient background matching splash screen
-    val gradient = Brush.linearGradient(
+    Brush.linearGradient(
         colors = listOf(
             Color(0xFF6650a4), // Purple40 - deep purple
             Color(0xFFD0BCFF), // Purple80 - light purple
