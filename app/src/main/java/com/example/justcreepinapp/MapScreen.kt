@@ -34,6 +34,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
@@ -129,7 +130,7 @@ fun MapScreen(modifier: Modifier = Modifier, appViewModel: AppViewModel, onMarke
                 OutlinedTextField(
                     value = viewModel.cityName.value,
                     onValueChange = { viewModel.cityName.value = it },
-                    label = { Text("Enter City") },
+                    label = { Text(stringResource(R.string.enter_city)) },
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -167,7 +168,7 @@ fun MapScreen(modifier: Modifier = Modifier, appViewModel: AppViewModel, onMarke
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Go")
+                    Text(stringResource(R.string.go))
                 }
 
 
@@ -191,7 +192,7 @@ fun TypeFilterDropdown(
 
     val showAll = selectedTypes.isEmpty()
     val displayText =
-        if (showAll) "All types"
+        if (showAll) stringResource(R.string.all_types)
         else selectedTypes.joinToString(", ")
 
     ExposedDropdownMenuBox(
@@ -210,7 +211,7 @@ fun TypeFilterDropdown(
             trailingIcon = {
                 Icon(
                     imageVector = Icons.Default.ArrowDropDown,
-                    contentDescription = "Open type filter"
+                    contentDescription = stringResource(R.string.open_type_filter)
                 )
             },
             singleLine = true
@@ -232,7 +233,7 @@ fun TypeFilterDropdown(
                             onCheckedChange = null // handled by parent onClick
                         )
                         Spacer(Modifier.width(8.dp))
-                        Text("All types")
+                        Text(stringResource(R.string.all_types))
                     }
                 },
                 onClick = {

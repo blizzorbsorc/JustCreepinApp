@@ -86,7 +86,7 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
                 ) {
                     Image(
                         painter = painterResource(R.drawable.logo2),
-                        contentDescription = "App Logo",
+                        contentDescription = stringResource(R.string.app_logo),
                         modifier = Modifier.size(100.dp)
                     )
                 }
@@ -96,11 +96,14 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
                     onClick = { /* TODO: Handle user profile click */ },
                     modifier = Modifier
                         .size(60.dp)
-                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.25f), CircleShape)
+                        .background(
+                            MaterialTheme.colorScheme.primary.copy(alpha = 0.25f),
+                            CircleShape
+                        )
                 ) {
                     Icon(
                         imageVector = Icons.Default.AccountCircle,
-                        contentDescription = "User Profile",
+                        contentDescription = stringResource(R.string.user_profile),
                         tint = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.size(36.dp)
                     )
@@ -114,7 +117,7 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
             ) {
 
                 Text(
-                    text = "Just Creepin'",
+                    text = stringResource(R.string.just_creepin),
                     fontSize = 42.sp,
                     fontWeight = FontWeight.Black,
                     color = MaterialTheme.colorScheme.onBackground,
@@ -124,7 +127,7 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
                 Spacer(Modifier.height(8.dp))
 
                 Text(
-                    text = "Discover Holiday Magic",
+                    text = stringResource(R.string.discover_holiday_magic),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Medium,
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.95f),
@@ -143,7 +146,7 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
                 // Halloween Card Button
                 HolidayCard(
                     title = stringResource(R.string.button_halloween),
-                    subtitle = "Find candy & spooky decorations",
+                    subtitle = stringResource(R.string.find_candy_spooky_decorations),
                     emoji = "🎃",
                     //highlightColor = DeepPurple,
                     //backgroundColor = DeepPurple,
@@ -159,7 +162,7 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
                 // Christmas Card Button
                 HolidayCard(
                     title = stringResource(R.string.button_christmas),
-                    subtitle = "Explore festive lights & displays",
+                    subtitle = stringResource(R.string.explore_festive_lights_displays),
                     emoji = "🎄",
                     backgroundColor = SoftPink,
                     onClick = {
@@ -180,18 +183,18 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
                 ) {
                     FeatureItem(
                         icon = Icons.Default.Place,
-                        text = "Map View"
+                        text = stringResource(R.string.map_view)
                     )
                     FeatureItem(
                         icon = Icons.Default.Share,
-                        text = "Community"
+                        text = stringResource(R.string.community)
                     )
                 }
 
                 Spacer(Modifier.height(16.dp))
 
                 Text(
-                    text = "Share & discover the best holiday spots",
+                    text = stringResource(R.string.share_discover_the_best_holiday_spots),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
                     //color = Color.White.copy(alpha = 0.85f),
@@ -272,7 +275,8 @@ fun FeatureItem(icon: ImageVector, text: String) {
     ) {
         Box(
             modifier = Modifier
-                .size(50.dp).background(MaterialTheme.colorScheme.primary.copy(alpha = 0.25f), CircleShape),
+                .size(50.dp)
+                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.25f), CircleShape),
                 //.background(Color.White.copy(alpha = 0.25f), CircleShape),
             contentAlignment = Alignment.Center
         ) {

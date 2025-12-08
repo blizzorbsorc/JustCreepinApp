@@ -92,17 +92,19 @@ fun ListScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Back",
+                        contentDescription = stringResource(R.string.back),
                         tint = MaterialTheme.colorScheme.primary
                     )
                 }
 
                 Text(
-                    text = "${viewModel.holiday.value} Locations",
+                    text = "${viewModel.holiday.value} ${stringResource(R.string.locations_title)}",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.weight(1f).padding(horizontal = 16.dp)
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(horizontal = 16.dp)
                 )
             }
 
@@ -140,7 +142,7 @@ fun ListScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "No locations added yet.\nTap 'Add Location' to get started!",
+                        text = stringResource(R.string.no_locations_added_yet_tap_add_location_to_get_started),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.9f),
@@ -185,7 +187,7 @@ fun ListScreen(
                                 }) {
                                     Icon(
                                         imageVector = Icons.Default.Edit,
-                                        contentDescription = "Edit Location",
+                                        contentDescription = stringResource(R.string.edit_location),
                                         tint = MaterialTheme.colorScheme.primary
                                     )
                                 }

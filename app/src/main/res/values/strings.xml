@@ -1,68 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Just Creepin\'</string>
-
-    <!-- Home Screen -->
-    <string name="home_title">Just Creepin\'</string>
-    <string name="home_subtitle">Discover Holiday Magic</string>
-    <string name="button_halloween">Halloween</string>
+    <string name="app_name">JustCreepinApp</string>
     <string name="button_christmas">Christmas</string>
-    <string name="halloween_subtitle">Find candy &amp; spooky decorations</string>
-    <string name="christmas_subtitle">Explore festive lights &amp; displays</string>
-    <string name="feature_map_view">Map View</string>
-    <string name="feature_community">Community</string>
-    <string name="home_tagline">Share &amp; discover the best holiday spots</string>
-
-    <!-- List Screen -->
-    <string name="locations_title">%s Locations</string>
+    <string name="button_halloween">Halloween</string>
     <string name="button_add_location">Add Location</string>
-    <string name="empty_locations">No locations added yet.\nTap \'Add Location\' to get started!</string>
-
-    <!-- Detail Screen -->
-    <string name="detail_add_title">Add Location</string>
-    <string name="detail_edit_title">Edit Location</string>
-    <string name="label_holiday">Holiday: %s</string>
-    <string name="label_decoration_type">Decoration Type</string>
-    <string name="placeholder_decoration_type">e.g., Giant Inflatable, Light Display</string>
-    <string name="label_search_address">Search Address</string>
-    <string name="placeholder_address">123 Main St, City, State</string>
-    <string name="label_selected_address">Selected Address:</string>
-    <string name="button_add_location_action">Add Location</string>
+    <string name="button_save_location">Save Location</string>
+    <string name="button_back">Back</string>
     <string name="button_update_location">Update Location</string>
     <string name="button_delete_location">Delete Location</string>
-    <string name="text_type">Type</string>
     <string name="text_latitude">Latitude</string>
     <string name="text_longitude">Longitude</string>
-
-    <!-- Profile Screen -->
-    <string name="profile_title">Your Profile</string>
-    <string name="profile_change_photo">Tap to change photo</string>
-    <string name="profile_full_name">Full Name</string>
-    <string name="profile_username">Username</string>
-    <string name="profile_email">Email</string>
-    <string name="profile_location">Location</string>
-    <string name="profile_about">About You</string>
-    <string name="profile_save">Save Profile</string>
-    <string name="placeholder_full_name">Enter your full name</string>
-    <string name="placeholder_username">\@username</string>
-    <string name="placeholder_email">your.email\@example.com</string>
-    <string name="placeholder_location">City, State</string>
-    <string name="placeholder_bio">Tell us about yourself...</string>
-
-    <!-- Chat Screen -->
-    <string name="chat_title">Community Chat</string>
-    <string name="chat_messages_count">%d messages</string>
-    <string name="chat_type_message">Type a message...</string>
-    <string name="chat_you">You</string>
-
-    <!-- Common -->
-    <string name="back">Back</string>
-    <string name="search">Search</string>
-    <string name="edit">Edit</string>
-    <string name="send">Send</string>
-    <string name="logo">Logo</string>
-    <string name="user_profile">User Profile</string>
+    <string name="text_holiday">Holiday</string>
+    <string name="text_type">Type</string>
     <string name="app_logo">App Logo</string>
-    <string name="profile_picture">Profile Picture</string>
+    <string name="user_profile">User Profile</string>
+    <string name="just_creepin">Just Creepin\'</string>
+    <string name="discover_holiday_magic">Discover Holiday Magic</string>
+    <string name="find_candy_spooky_decorations"><![CDATA[Find candy & spooky decorations]]></string>
+    <string name="explore_festive_lights_displays"><![CDATA[Explore festive lights & displays]]></string>
+    <string name="map_view">Map View</string>
+    <string name="community">Community</string>
+    <string name="share_discover_the_best_holiday_spots"><![CDATA[Share & discover the best holiday spots]]></string>
+    <string name="back">Back</string>
+    <string name="locations_title">Locations</string>
+    <string name="no_locations_added_yet_tap_add_location_to_get_started">No locations added yet.\nTap \'Add Location\' to get started!</string>
     <string name="edit_location">Edit Location</string>
+    <string name="add_location">Add Location</string>
+    <string name="decoration_type">Decoration Type</string>
+    <string name="e_g_giant_inflatable_light_display">e.g., Giant Inflatable, Light Display</string>
+    <string name="search_address">Search Address</string>
+    <string name="_123_main_st_city_state">123 Main St, City, State</string>
+    <string name="search">Search</string>
+    <string name="selected_address">Selected Address:</string>
+    <string name="update_location">Update Location</string>
+    <string name="delete_location">Delete Location</string>
+    <string name="enter_city">Enter City</string>
+    <string name="go">Go</string>
+    <string name="all_types">All types</string>
+    <string name="open_type_filter">Open type filter</string>
 </resources>

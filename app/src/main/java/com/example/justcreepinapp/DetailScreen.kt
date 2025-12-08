@@ -163,13 +163,15 @@ fun DetailScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = stringResource(R.string.back),
                             tint = MaterialTheme.colorScheme.primary
                         )
                     }
 
                     Text(
-                        text = if (editLocation) "Edit Location" else "Add Location",
+                        text = if (editLocation) stringResource(R.string.edit_location) else stringResource(
+                            R.string.add_location
+                        ),
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onBackground,
@@ -192,8 +194,8 @@ fun DetailScreen(
                 OutlinedTextField(
                     value = viewModel.type.value,
                     onValueChange = { viewModel.type.value = it },
-                    label = { Text("Decoration Type") },
-                    placeholder = { Text("e.g., Giant Inflatable, Light Display") },
+                    label = { Text(stringResource(R.string.decoration_type)) },
+                    placeholder = { Text(stringResource(R.string.e_g_giant_inflatable_light_display)) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
 
@@ -235,8 +237,8 @@ fun DetailScreen(
                         searchQuery = it
                         showResults = it.isNotEmpty()
                     },
-                    label = { Text("Search Address") },
-                    placeholder = { Text("123 Main St, City, State") },
+                    label = { Text(stringResource(R.string.search_address)) },
+                    placeholder = { Text(stringResource(R.string._123_main_st_city_state)) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
                     trailingIcon = {
@@ -269,7 +271,7 @@ fun DetailScreen(
                             }) {
                                 Icon(
                                     imageVector = Icons.Default.Search,
-                                    contentDescription = "Search",
+                                    contentDescription = stringResource(R.string.search),
                                     tint = MaterialTheme.colorScheme.primary
                                 )
                             }
@@ -349,7 +351,8 @@ fun DetailScreen(
                                         .fillMaxWidth()
                                         .clickable {
                                             viewModel.latitude.value = addressLine
-                                            viewModel.longitude.value = "${address.latitude},${address.longitude}"
+                                            viewModel.longitude.value =
+                                                "${address.latitude},${address.longitude}"
                                             searchQuery = addressLine
                                             showResults = false
                                         }
@@ -376,7 +379,7 @@ fun DetailScreen(
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(
-                                text = "Selected Address:",
+                                text = stringResource(R.string.selected_address),
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Bold,
                                 //color = Color.White
@@ -431,7 +434,7 @@ fun DetailScreen(
                         enabled = viewModel.latitude.value.isNotEmpty() && viewModel.type.value.isNotEmpty()
                     ) {
                         Text(
-                            text = if (editLocation) "Update Location" else "Add Location",
+                            text = if (editLocation) stringResource(R.string.update_location) else stringResource(R.string.button_add_location),
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             //color = Color(0xFF6650a4)
@@ -459,7 +462,7 @@ fun DetailScreen(
                         elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp)
                     ) {
                         Text(
-                            text = "Delete Location",
+                            text = stringResource(R.string.delete_location),
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onPrimary
