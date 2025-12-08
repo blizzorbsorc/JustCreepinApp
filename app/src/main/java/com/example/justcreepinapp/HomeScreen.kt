@@ -43,6 +43,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+// Home Screen
 @Composable
 fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
     // Gradient background matching splash screen
@@ -196,6 +197,7 @@ fun HomeScreen(viewModel: AppViewModel, onHolidayClick: () -> Unit) {
     }
 }
 
+// Holiday Card
 @Composable
 fun HolidayCard(
     title: String,
@@ -256,6 +258,7 @@ fun HolidayCard(
     }
 }
 
+// Feature Item
 @Composable
 fun FeatureItem(icon: ImageVector, text: String) {
     Column(

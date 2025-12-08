@@ -57,6 +57,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+// Detail Screen
 @Composable
 fun DetailScreen(
     viewModel: AppViewModel,
@@ -75,10 +76,6 @@ fun DetailScreen(
     val fusedLocationClient = remember {
         LocationServices.getFusedLocationProviderClient(context)
     }
-    /*val permissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->*/
-
 
     // Location Permission
     var hasLocationPermission by remember { mutableStateOf(false) }
@@ -92,6 +89,7 @@ fun DetailScreen(
     var isSearching by remember { mutableStateOf(false) }
     var showResults by remember { mutableStateOf(false) }
 
+    // Load location field values
     LaunchedEffect(locationId) {
         if (editLocation) {
             locationId?.let { viewModel.loadLocationFieldValues(it) }
@@ -116,15 +114,13 @@ fun DetailScreen(
         }
     }
 
+    // Get current location
     LaunchedEffect(hasLocationPermission, editLocation) {
         if (hasLocationPermission && !editLocation) {
             fusedLocationClient.lastLocation.addOnSuccessListener { location ->
                 if (location != null) {
-                //viewModel.latitude.value = "${location.latitude},${location.longitude}"
                     viewModel.latitude.value = "${location.latitude}"
                     viewModel.longitude.value = "${location.longitude}"
-                    //viewModel.latitude.value = location.latitude.toString()
-                    //viewModel.longitude.value = location.longitude.toString()
                 }
             }
         }
@@ -276,6 +272,7 @@ fun DetailScreen(
                 Spacer(Modifier.height(8.dp))
 
                 Spacer(Modifier.height(12.dp))
+                // Latitude Field
                 OutlinedTextField(
                     value = viewModel.latitude.value,
                     onValueChange = {viewModel.latitude.value=it},
@@ -288,6 +285,7 @@ fun DetailScreen(
                         color = MaterialTheme.colorScheme.error)
                 }
                 Spacer(Modifier.height(12.dp))
+                // Longitude Field
                 OutlinedTextField(
                     value = viewModel.longitude.value,
                     onValueChange = {viewModel.longitude.value=it},

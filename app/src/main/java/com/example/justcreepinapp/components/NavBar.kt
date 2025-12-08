@@ -15,15 +15,19 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
+// Define a navigation bar
 @Composable
 fun NavBar(navController: NavController) {
     val items = listOf("home_screen", "map_screen", "list_screen")
     val icons = listOf(Icons.Default.Home, Icons.Filled.Map, Icons.Filled.List)
     val labels = listOf("Home", "Map", "List")
+
+    // Add a navigation item for each item in items
     NavigationBar {
         val navBackStackEntry = navController.currentBackStackEntryAsState().value
         val currentRoute = navBackStackEntry?.destination?.route
 
+        // Add a navigation item for each item in items
         items.forEachIndexed { index, item ->
             NavigationBarItem(
                 selected = currentRoute == item,
