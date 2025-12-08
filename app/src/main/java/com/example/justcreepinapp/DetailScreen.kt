@@ -196,14 +196,7 @@ fun DetailScreen(
                     placeholder = { Text("e.g., Giant Inflatable, Light Display") },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
-                    /*colors = OutlinedTextFieldDefaults.colors(
-                        focusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
-                        unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
-                        focusedBorderColor = MaterialTheme.colorScheme.primary,
-                        unfocusedBorderColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
-                        focusedLabelColor = MaterialTheme.colorScheme.primary,
-                        unfocusedLabelColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.7f)
-                    )*/
+
                     colors = OutlinedTextFieldDefaults.colors(
                         // Field background
                         focusedContainerColor = MaterialTheme.colorScheme.surface,
